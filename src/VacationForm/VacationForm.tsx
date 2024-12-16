@@ -1,4 +1,4 @@
-import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { Document, Image, Page, Text, View } from "@react-pdf/renderer";
 import { styles } from "./VacationStyle";
 
 interface VacationFormProps {
@@ -11,15 +11,19 @@ interface VacationFormProps {
   flag?: string | number;
   during?: string;
   reason?: string;
+  signUrl?: string;
+  writedAt?: string;
 }
 
 const VacationForm = ({
-  name = "",
-  birth = "",
+  name = "김오즈",
+  birth = "00.00.00",
   track = "초격차 웹 개발 캠프(프론트엔드)",
   flag = "00기",
   during = "0000년 00월 00일 ~ 0000년 00월 00일 (0일간)",
   reason = "개인 사정으로 인한 휴가",
+  signUrl = "",
+  writedAt = "",
 }: VacationFormProps) => {
   const tableValue = [
     { attribute: "성명", value: name },
@@ -29,8 +33,13 @@ const VacationForm = ({
     { attribute: "휴가 신청일", value: during },
   ];
 
-  const date = new Date();
-
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
+  const koreaTimeDiff = 32400000;
+  const date = new Date(utc + koreaTimeDiff);
+  writedAt = `${date.getFullYear()}년   ${
+    date.getMonth() + 1
+  }월   ${date.getDate()}일`;
   return (
     <Document style={styles.previewContainer} title={`${name} 휴가 신청서.pdf`}>
       <Page size="A4" style={styles.page}>
@@ -49,8 +58,8 @@ const VacationForm = ({
             </View>
           ))}
 
-          <View style={styles.tableRow}>
-            <Text style={styles.tableAttribute}>신청 사유</Text>
+          <View style={styles.tableRowReason}>
+            <Text style={styles.tableAttributeReason}>신청 사유</Text>
             <Text style={styles.reason}>{reason}</Text>
           </View>
 
@@ -58,12 +67,11 @@ const VacationForm = ({
             <Text style={styles.submitText}>
               위와 같이 휴가를 신청하오니 승인하여 주시기 바랍니다.
             </Text>
-            <Text
-              style={styles.submitDate}
-            >{`${date.getFullYear()}년   ${date.getMonth()}월   ${date.getDay()}일`}</Text>
+            <Text style={styles.submitDate}>{writedAt}</Text>
             <View style={styles.submitName}>
-              <Text>신청자: {name}</Text>
-              <Text>(인)</Text>
+              <Text style={styles.submitSignName}>신청자: {name} (인)</Text>
+
+              <Image src={signUrl} style={styles.sign}></Image>
             </View>
           </View>
         </View>

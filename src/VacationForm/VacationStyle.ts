@@ -1,8 +1,8 @@
 import { Font, StyleSheet } from "@react-pdf/renderer";
 
 Font.register({
-  family: "SpoqaHanSans",
-  src: "https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@01ff0283e4f36e159ffbf744b36e16ef742da6d8/Subset/SpoqaHanSans/SpoqaHanSansLight.ttf",
+  family: "pretendard",
+  src: "https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff",
 });
 
 export const styles = StyleSheet.create({
@@ -17,58 +17,83 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    fontFamily: "SpoqaHanSans",
+    fontFamily: "pretendard",
     fontSize: "11pt",
     textAlign: "left",
     marginLeft: "2.54cm",
-    marginTop: "2.54cm",
   },
   title: {
-    fontFamily: "SpoqaHanSans",
+    fontFamily: "pretendard",
     display: "flex",
     justifyContent: "center",
-    marginTop: "22pt",
-    marginBottom: "40pt",
+    marginTop: "11pt",
+    marginBottom: "22pt",
     fontWeight: "extrabold",
   },
   titleContent: {
+    fontFamily: "pretendard",
     fontSize: "20pt",
-    letterSpacing: "0.2cm",
+    letterSpacing: "0.3cm",
+    fontWeight: "extrabold",
   },
   table: {
-    fontFamily: "SpoqaHanSans",
-    fontSize: "13pt",
-    fontWeight: "bold",
+    fontFamily: "pretendard",
+    fontSize: "12pt",
+    fontWeight: "demibold",
     display: "flex",
 
     flexDirection: "column",
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: "#000",
-    marginLeft: "12vw",
-    marginRight: "12vw",
-    marginBottom: "12vw",
+    marginLeft: "2.54cm",
+    marginRight: "2.54cm",
     marginTop: 0,
   },
   tableRow: {
     display: "flex",
     flexDirection: "row",
+    height: 30,
   },
+
   tableAttribute: {
     flex: 1,
-    borderWidth: 1,
+    borderBottom: 1.5,
+    textAlign: "center",
     borderColor: "#000",
-    padding: 5,
-    alignContent: "center",
+    paddingVertical: 5,
   },
   tableCell: {
     flex: 3, // 각 셀이 동일한 크기를 가지도록 설정
-    borderWidth: 1,
+    borderBottom: 1.5,
+    borderLeft: 1.5,
     borderColor: "#000",
-    padding: 20,
+    padding: "7 0",
   },
   tableHeader: {
     backgroundColor: "#eaeaea",
     fontWeight: "bold",
+  },
+  tableRowReason: {
+    display: "flex",
+    flexDirection: "row",
+    height: 80,
+  },
+  tableAttributeReason: {
+    flex: 1,
+    borderRight: 1.5,
+    borderBottom: 1.5,
+    textAlign: "center",
+    borderColor: "#000",
+    paddingVertical: 30,
+  },
+  reason: {
+    flex: 3,
+    borderBottom: 1.5,
+    display: "flex",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 30,
   },
   tableDescription: {
     display: "flex",
@@ -76,23 +101,9 @@ export const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     textAlign: "center",
-    minHeight: "11.615cm",
-    minWidth: "3.545cm",
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#000",
-  },
-
-  reason: {
-    flex: 3,
-    minHeight: "3.096cm",
-    display: "flex",
-    textAlign: "center",
-    borderWidth: 1,
-    borderColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
+    gap: 80,
+    paddingTop: 80,
+    paddingBottom: 0,
   },
 
   submitText: {
@@ -110,5 +121,21 @@ export const styles = StyleSheet.create({
     textAlign: "right",
     alignSelf: "flex-end",
     gap: "2cm",
+  },
+  submitSignName: {
+    position: "relative",
+    paddingVertical: 14,
+    letterSpacing: 3,
+    marginRight: 20,
+  },
+  submitSign: {
+    letterSpacing: 4,
+  },
+  sign: {
+    position: "absolute",
+    width: 60,
+    height: 60,
+    bottom: 0,
+    right: 0,
   },
 });
