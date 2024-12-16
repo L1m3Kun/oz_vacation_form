@@ -1,5 +1,11 @@
+import { RouterConfig } from "./routes";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <RouterConfig />
+    </>
+  );
 }
 
 export default App;
