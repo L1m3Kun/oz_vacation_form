@@ -1,10 +1,10 @@
 import { Route, RouteProps, Routes } from "react-router-dom";
 import CreatingForm from "../CreateForm/CreatingForm";
-import PDFPreview from "../pages/PDFPreview";
+import VacationPreview from "../VacationForm/VacationPreview";
 
 export const RouteList: RouteProps[] = [
   { path: "/", element: <CreatingForm /> },
-  { path: "/preview", element: <PDFPreview /> },
+  { path: "/preview", element: <VacationPreview /> },
 ];
 
 export const RouterConfig = () => {
