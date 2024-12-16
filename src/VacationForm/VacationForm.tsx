@@ -29,7 +29,7 @@ const VacationForm = ({
     { attribute: "성명", value: name },
     { attribute: "생년월일", value: birth },
     { attribute: "훈련과정", value: track },
-    { attribute: "기수", value: flag },
+    { attribute: "기수", value: `${flag} 기` },
     { attribute: "휴가 신청일", value: during },
   ];
 
