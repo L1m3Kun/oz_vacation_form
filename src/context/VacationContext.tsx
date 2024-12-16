@@ -3,7 +3,6 @@ import {
   PropsWithChildren,
   createContext,
   useContext,
-  useRef,
   useState,
 } from "react";
 
@@ -18,15 +17,16 @@ export interface InputValueType {
     | "초격차 웹 개발 캠프(프론트엔드)"
     | "초격차 웹 개발 캠프(백엔드)"
     | "관리형 웹 풀스택 부트캠프";
-  canvasRef: React.RefObject<HTMLCanvasElement> | null;
+  signUrl: string;
   handleChangeInput: <T extends HTMLInputElement | HTMLSelectElement>(
     e: ChangeEvent<T>
   ) => void;
+  handleSignUrl: (newSign: string) => void;
 }
 
 const INITIAL_VACATION: Omit<
   InputValueType,
-  "handleChangeInput" | "canvasRef"
+  "handleChangeInput" | "signUrl" | "handleSignUrl"
 > = {
   name: "",
   birth: new Date(),
@@ -39,16 +39,17 @@ const INITIAL_VACATION: Omit<
 
 const VacationContext = createContext<InputValueType>({
   ...INITIAL_VACATION,
-  canvasRef: null,
+  signUrl: "",
+  handleSignUrl: () => {},
   handleChangeInput: () => {},
 });
 
 export const VacationProvider = ({ children }: PropsWithChildren) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [value, setValue] =
-    useState<Omit<InputValueType, "handleChangeInput" | "canvasRef">>(
-      INITIAL_VACATION
-    );
+    useState<
+      Omit<InputValueType, "handleChangeInput" | "signUrl" | "handleSignUrl">
+    >(INITIAL_VACATION);
+  const [signUrl, setSignUrl] = useState<string>("");
 
   const handleChangeInput = <T extends HTMLInputElement | HTMLSelectElement>(
     e: ChangeEvent<T>
@@ -56,12 +57,14 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
     const target = e.target as T;
     if (target.id in value) {
       setValue((prev) => ({ ...prev, [target.id]: target.value }));
-      console.log(target.id, target.value);
     }
+  };
+  const handleSignUrl = (newSignUrl: string) => {
+    setSignUrl(newSignUrl);
   };
   return (
     <VacationContext.Provider
-      value={{ ...value, canvasRef, handleChangeInput }}
+      value={{ ...value, signUrl: signUrl, handleChangeInput, handleSignUrl }}
     >
       {children}
     </VacationContext.Provider>

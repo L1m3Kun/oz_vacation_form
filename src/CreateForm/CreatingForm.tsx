@@ -2,6 +2,8 @@ import LabeledInput from "./CustomInput";
 import CustomSelect from "./CustomSelect";
 import { useVacation } from "../context/VacationContext";
 import SignatureCanvas from "../Canvas/SignatureCanvas";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const INPUT_ELEMENTS = [
   {
@@ -14,11 +16,16 @@ const INPUT_ELEMENTS = [
   {
     htmlFor: "flag",
     labelText: "기수",
-    type: "number",
+    type: "text",
     placeholder: "예시) 7기 -> 7",
   },
   { htmlFor: "duringFrom", labelText: "휴가 시작일", type: "date" },
   { htmlFor: "duringTo", labelText: "휴가 종료일", type: "date" },
+  {
+    htmlFor: "writedAt",
+    labelText: "작성일",
+    type: "date",
+  },
   {
     htmlFor: "reason",
     labelText: "휴가 사유(선택)",
@@ -28,11 +35,19 @@ const INPUT_ELEMENTS = [
 ];
 
 const CreatingForm = () => {
-  const { handleChangeInput, ...value } = useVacation();
-
+  const { handleChangeInput, handleSignUrl, ...value } = useVacation();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const navigate = useNavigate();
   const createVacationForm = (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(value);
+    const canvasCurrent = canvasRef.current;
+    if (canvasCurrent) {
+      const url = canvasCurrent.toDataURL();
+      handleSignUrl(url);
+      console.log(value);
+      console.log(url);
+      navigate("/preview");
+    }
   };
 
   return (
@@ -57,9 +72,10 @@ const CreatingForm = () => {
             onChange={handleChangeInput<HTMLInputElement>}
           />
         ))}
-        <SignatureCanvas />
+        <SignatureCanvas reff={canvasRef} />
         <button
           type="submit"
+          id="submit"
           className="p-4 text-center max-w-sm rounded-md border-solid border-white border-2 cursor-pointer hover:opacity-70 mx-auto"
         >
           휴가 신청서 만들기

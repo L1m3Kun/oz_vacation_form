@@ -1,9 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { RefObject, useState } from "react";
 
-const useDraw = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+interface DrawParams {
+  canvasRef: RefObject<HTMLCanvasElement>;
+}
+
+const useDraw = ({ canvasRef }: DrawParams) => {
   const [isDrawing, setIsDrawing] = useState(false);
-
   const startDrawing = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -33,7 +35,9 @@ const useDraw = () => {
     const rect = canvas.getBoundingClientRect();
     const offsetX = event.clientX - rect.left;
     const offsetY = event.clientY - rect.top;
-
+    ctx.lineWidth = 5;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     ctx.lineTo(offsetX, offsetY);
     ctx.stroke();
   };
