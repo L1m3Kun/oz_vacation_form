@@ -1,9 +1,10 @@
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import LabeledInput from "./CustomInput";
 import CustomSelect from "./CustomSelect";
 import { useVacation } from "../context/VacationContext";
 import SignatureCanvas from "../Canvas/SignatureCanvas";
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import LogoImage from "../assets/images/오즈_라이트.png";
 
 const INPUT_ELEMENTS = [
   {
@@ -19,12 +20,23 @@ const INPUT_ELEMENTS = [
     type: "text",
     placeholder: "예시) 7기 -> 7",
   },
-  { htmlFor: "duringFrom", labelText: "휴가 시작일", type: "date" },
-  { htmlFor: "duringTo", labelText: "휴가 종료일", type: "date" },
+  {
+    htmlFor: "duringFrom",
+    labelText: "휴가 시작일",
+    type: "date",
+    max: "9999-12-31",
+  },
+  {
+    htmlFor: "duringTo",
+    labelText: "휴가 종료일",
+    type: "date",
+    max: "9999-12-31",
+  },
   {
     htmlFor: "writedAt",
-    labelText: "작성일",
+    labelText: "작성일(기본: 당일)",
     type: "date",
+    max: "9999-12-31",
   },
   {
     htmlFor: "reason",
@@ -51,9 +63,16 @@ const CreatingForm = () => {
   };
 
   return (
-    <form onSubmit={createVacationForm}>
-      <h1 className="text-center my-8 font-extrabold text-2xl">
-        OZ 휴가 신청서
+    <form onSubmit={createVacationForm} className="mx-auto">
+      <h1 className="flex flex-wrap justify-center gap-3 text-center my-8 font-extrabold text-3xl">
+        <img
+          src={LogoImage}
+          alt="로고"
+          height={21}
+          width={155}
+          className="self-center block"
+        />
+        <p className="self-start">휴가 신청서</p>
       </h1>
       <div className="flex flex-col gap-3">
         <div className="w-full max-w-sm mx-auto">
