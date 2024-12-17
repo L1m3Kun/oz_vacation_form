@@ -33,13 +33,6 @@ const VacationForm = ({
     { attribute: "휴가 신청일", value: during },
   ];
 
-  const now = new Date();
-  const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
-  const koreaTimeDiff = 32400000;
-  const date = new Date(utc + koreaTimeDiff);
-  writedAt = `${date.getFullYear()}년   ${
-    date.getMonth() + 1
-  }월   ${date.getDate()}일`;
   return (
     <Document style={styles.previewContainer} title={`${name} 휴가 신청서.pdf`}>
       <Page size="A4" style={styles.page}>

@@ -13,6 +13,7 @@ export interface InputValueType {
   duringFrom: Date;
   duringTo: Date;
   reason: string;
+  writedAt?: Date;
   track:
     | "초격차 웹 개발 캠프(프론트엔드)"
     | "초격차 웹 개발 캠프(백엔드)"
