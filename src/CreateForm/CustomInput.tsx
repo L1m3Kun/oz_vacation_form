@@ -4,7 +4,7 @@ interface CustomInputProps extends ComponentPropsWithRef<"input"> {
   htmlFor: string;
 }
 
-const CustomInput = ({ placeholder, htmlFor, ...rest }: CustomInputProps) => {
+const Input = ({ placeholder, htmlFor, ...rest }: CustomInputProps) => {
   return (
     <input
       className="text-black w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 placeholder-gray-400"
@@ -42,6 +42,25 @@ const withLabel = (WrappedComponent: ComponentType<CustomInputProps>) => {
   };
 };
 
-const LabeledInput = withLabel(CustomInput);
+interface ErrorMessageComponent extends LabelComponent {
+  errorMessage?: string;
+}
 
-export default LabeledInput;
+const withErrorMessage = (
+  WrappedComponent: ComponentType<ErrorMessageComponent>
+) => {
+  return ({ errorMessage = "", ...rest }: ErrorMessageComponent) => {
+    return (
+      <div>
+        <WrappedComponent {...rest} />
+        <p className="text-red-400 w-full max-w-sm mx-auto pt-2 pl-2 font-bold">
+          {errorMessage}
+        </p>
+      </div>
+    );
+  };
+};
+
+const CustomInput = withErrorMessage(withLabel(Input));
+
+export default CustomInput;
