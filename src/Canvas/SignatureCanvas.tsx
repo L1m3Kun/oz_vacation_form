@@ -11,10 +11,10 @@ const SignatureCanvas = ({ reff }: SignatureCanvasProps) => {
   });
   return (
     <>
-      <label htmlFor="sign" className="mx-auto">
+      <label htmlFor="sign" className="w-full max-w-sm mx-auto">
         서명
       </label>
-      <div className="flex justify-center mx-auto gap-4">
+      <div className="flex justify-center w-full max-w-sm mx-auto gap-4">
         <canvas
           className="border-solid border cursor-crosshair bg-sign-img bg-cover"
           ref={canvasRef}
