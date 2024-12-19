@@ -14,7 +14,6 @@ interface ErrorMessageObject {
   flagError: string;
   birthError: string;
   duringError: string;
-  signError: string;
 }
 
 const ERROR_MESSAGE = {
@@ -32,7 +31,6 @@ const CreatingForm = () => {
     flagError: "",
     birthError: "",
     duringError: "",
-    signError: "",
   });
 
   const validateRequired = (value: string, errorType: string) => {
@@ -73,37 +71,13 @@ const CreatingForm = () => {
   const validate = () => {
     for (let em of Object.values(errorMessage)) {
       console.log(em);
-      setIsValid(em ? true : false);
+      setIsValid(em ? false : true);
     }
   };
 
-  // useEffect(() => {
-  //   if (value.signUrl) {
-  //     setErrorMessage((prev) => ({
-  //       ...prev,
-  //       signError: "",
-  //     }));
-  //   } else {
-  //     setErrorMessage((prev) => ({
-  //       ...prev,
-  //       signError: ERROR_MESSAGE.required,
-  //     }));
-  //   }
-  //   return () => {};
-  // }, [value.signUrl]);
-
   useEffect(() => {
-    console.log(isValid);
     validate();
-    return () => {};
-  }, [
-    value.birth,
-    value.duringFrom,
-    value.duringTo,
-    value.flag,
-    value.name,
-    value.signUrl,
-  ]);
+  }, [value.birth, value.duringFrom, value.duringTo, value.flag, value.name]);
 
   const INPUT_ELEMENTS = [
     {
@@ -121,6 +95,7 @@ const CreatingForm = () => {
       htmlFor: "birth",
       labelText: "생년월일",
       type: "date",
+      max: "9999-12-31",
       onChange(e: ChangeEvent<HTMLInputElement>) {
         validateRequired((e.target as HTMLInputElement).value, "birthError");
         handleChangeInput<HTMLInputElement>(e);
