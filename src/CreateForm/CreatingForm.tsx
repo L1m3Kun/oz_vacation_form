@@ -145,6 +145,7 @@ const CreatingForm = () => {
       labelText: "기수*",
       type: "number",
       value: value.flag,
+      min: 1,
       placeholder: "예시) 7기 -> 7",
       onChange(e: ChangeEvent<HTMLInputElement>) {
         validateRequired((e.target as HTMLInputElement).value, "flagError");
