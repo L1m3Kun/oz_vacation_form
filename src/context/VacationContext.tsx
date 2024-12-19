@@ -8,10 +8,10 @@ import {
 
 export interface InputValueType {
   name: string;
-  birth: Date;
+  birth: string;
   flag: number;
-  duringFrom: Date;
-  duringTo: Date;
+  duringFrom: string;
+  duringTo: string;
   reason: string;
   writedAt?: Date;
   track:
@@ -30,10 +30,10 @@ const INITIAL_VACATION: Omit<
   "handleChangeInput" | "signUrl" | "handleSignUrl"
 > = {
   name: "",
-  birth: new Date(),
+  birth: new Date().toDateString(),
   flag: 0,
-  duringFrom: new Date(),
-  duringTo: new Date(),
+  duringFrom: new Date().toDateString(),
+  duringTo: new Date().toDateString(),
   reason: "개인 사정으로 인한 휴가",
   track: "초격차 웹 개발 캠프(프론트엔드)",
 };

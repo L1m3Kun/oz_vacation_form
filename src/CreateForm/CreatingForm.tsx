@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useVacation } from "../context/VacationContext";
@@ -8,66 +8,175 @@ import localStorageUtils from "../util/localStorageUtils";
 
 import CustomSelect from "./CustomSelect";
 import CustomInput from "./CustomInput";
-import useValidate from "./useValidate";
-
-const INPUT_ELEMENTS = [
-  {
-    htmlFor: "name",
-    labelText: "이름*",
-    type: "text",
-    placeholder: "이름을 입력해주세요.",
-  },
-  { htmlFor: "birth", labelText: "생년월일", type: "date" },
-  {
-    htmlFor: "flag",
-    labelText: "기수*",
-    type: "text",
-    placeholder: "예시) 7기 -> 7",
-  },
-  {
-    htmlFor: "duringFrom",
-    labelText: "휴가 시작일*",
-    type: "date",
-    max: "9999-12-31",
-  },
-  {
-    htmlFor: "duringTo",
-    labelText: "휴가 종료일*",
-    type: "date",
-    max: "9999-12-31",
-  },
-  {
-    htmlFor: "writedAt",
-    labelText: "작성일(기본: 당일)",
-    type: "date",
-    max: "9999-12-31",
-  },
-  {
-    htmlFor: "reason",
-    labelText: "휴가 사유(선택)",
-    type: "text",
-    placeholder: "개인 사정으로 인한 휴가",
-  },
-];
 
 interface ErrorMessageObject {
   nameError: string;
   flagError: string;
-  duringFromError: string;
-  duringToError: string;
+  birthError: string;
+  duringError: string;
+  signError: string;
 }
+
+const ERROR_MESSAGE = {
+  required: "필수 사항입니다.",
+  duringDate: "휴가 시작일은 휴가 종료일 보다 앞서야합니다.",
+};
 
 const CreatingForm = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { handleChangeInput, handleSignUrl, ...value } = useVacation();
-  const { isValidate, validating } = useValidate();
+  const [isValid, setIsValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState<ErrorMessageObject>({
     nameError: "",
     flagError: "",
-    duringToError: "",
-    duringFromError: "",
+    birthError: "",
+    duringError: "",
+    signError: "",
   });
+
+  const validateRequired = (value: string, errorType: string) => {
+    if (value === "") {
+      setErrorMessage((prev) => ({
+        ...prev,
+        [errorType]: ERROR_MESSAGE.required,
+      }));
+    } else {
+      setErrorMessage((prev) => ({
+        ...prev,
+        [errorType]: "",
+      }));
+    }
+  };
+  type ValidateDateParams = {
+    from?: string;
+    to?: string;
+  };
+
+  const validateDate = ({
+    from = value.duringFrom,
+    to = value.duringTo,
+  }: ValidateDateParams) => {
+    const [duringFrom, duringTo] = [new Date(from), new Date(to)];
+    if (duringFrom.getTime() > duringTo.getTime()) {
+      setErrorMessage((prev) => ({
+        ...prev,
+        duringError: ERROR_MESSAGE.duringDate,
+      }));
+    } else {
+      setErrorMessage((prev) => ({
+        ...prev,
+        duringError: "",
+      }));
+    }
+  };
+  const validate = () => {
+    for (let em of Object.values(errorMessage)) {
+      console.log(em);
+      setIsValid(em ? true : false);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (value.signUrl) {
+  //     setErrorMessage((prev) => ({
+  //       ...prev,
+  //       signError: "",
+  //     }));
+  //   } else {
+  //     setErrorMessage((prev) => ({
+  //       ...prev,
+  //       signError: ERROR_MESSAGE.required,
+  //     }));
+  //   }
+  //   return () => {};
+  // }, [value.signUrl]);
+
+  useEffect(() => {
+    console.log(isValid);
+    validate();
+    return () => {};
+  }, [
+    value.birth,
+    value.duringFrom,
+    value.duringTo,
+    value.flag,
+    value.name,
+    value.signUrl,
+  ]);
+
+  const INPUT_ELEMENTS = [
+    {
+      htmlFor: "name",
+      labelText: "이름*",
+      type: "text",
+      placeholder: "이름을 입력해주세요.",
+      onChange(e: ChangeEvent<HTMLInputElement>) {
+        validateRequired((e.target as HTMLInputElement).value, "nameError");
+        handleChangeInput<HTMLInputElement>(e);
+      },
+      errorMessage: errorMessage.nameError,
+    },
+    {
+      htmlFor: "birth",
+      labelText: "생년월일",
+      type: "date",
+      onChange(e: ChangeEvent<HTMLInputElement>) {
+        validateRequired((e.target as HTMLInputElement).value, "birthError");
+        handleChangeInput<HTMLInputElement>(e);
+      },
+      errorMessage: errorMessage.birthError,
+    },
+    {
+      htmlFor: "flag",
+      labelText: "기수*",
+      type: "text",
+      placeholder: "예시) 7기 -> 7",
+      onChange(e: ChangeEvent<HTMLInputElement>) {
+        validateRequired((e.target as HTMLInputElement).value, "flagError");
+        handleChangeInput<HTMLInputElement>(e);
+      },
+      errorMessage: errorMessage.flagError,
+    },
+    {
+      htmlFor: "duringFrom",
+      labelText: "휴가 시작일*",
+      type: "date",
+      max: "9999-12-31",
+      onChange(e: ChangeEvent<HTMLInputElement>) {
+        validateRequired((e.target as HTMLInputElement).value, "duringError");
+        validateDate({ from: (e.target as HTMLInputElement).value });
+        handleChangeInput<HTMLInputElement>(e);
+      },
+      errorMessage: errorMessage.duringError,
+    },
+    {
+      htmlFor: "duringTo",
+      labelText: "휴가 종료일*",
+      type: "date",
+      max: "9999-12-31",
+      onChange(e: ChangeEvent<HTMLInputElement>) {
+        validateRequired((e.target as HTMLInputElement).value, "duringError");
+        validateDate({ to: (e.target as HTMLInputElement).value });
+        handleChangeInput<HTMLInputElement>(e);
+      },
+      errorMessage: errorMessage.duringError,
+    },
+    {
+      htmlFor: "writedAt",
+      labelText: "작성일(기본: 당일)",
+      type: "date",
+      max: "9999-12-31",
+      onChange: handleChangeInput<HTMLInputElement>,
+    },
+    {
+      htmlFor: "reason",
+      labelText: "휴가 사유(선택)",
+      type: "text",
+      placeholder: "개인 사정으로 인한 휴가",
+      onChange: handleChangeInput<HTMLInputElement>,
+    },
+  ];
 
   const createVacationForm = (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -105,17 +214,15 @@ const CreatingForm = () => {
           />
         </div>
         {INPUT_ELEMENTS.map((el) => (
-          <CustomInput
-            key={el.htmlFor}
-            {...el}
-            onChange={handleChangeInput<HTMLInputElement>}
-          />
+          <CustomInput key={el.htmlFor} {...el} />
         ))}
         <SignatureCanvas reff={canvasRef} />
+        {/* <p>{errorMessage.signError}</p> */}
         <button
           type="submit"
           id="submit"
-          className="p-4 text-center max-w-sm rounded-md border-solid border-white border-2 cursor-pointer hover:opacity-70 mx-auto"
+          className="p-4 text-center max-w-sm rounded-md border-solid border-white border-2 cursor-pointer hover:opacity-70 mx-auto  disabled:cursor-not-allowed disabled:opacity-75 disabled:border-opacity-75"
+          disabled={!isValid}
         >
           휴가 신청서 만들기
         </button>
