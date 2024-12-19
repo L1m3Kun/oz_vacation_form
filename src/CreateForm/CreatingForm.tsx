@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 import { useVacation } from "../context/VacationContext";
 import SignatureCanvas from "../Canvas/SignatureCanvas";
-import LogoImage from "../assets/images/오즈_라이트.png";
 import localStorageUtils from "../util/localStorageUtils";
+import LOCALSTORAGE_KEY from "../util/localStorageKey";
 
 import CustomSelect from "./CustomSelect";
-import CustomInput from "./CustomInput";
+import CustomInput, { ErrorMessageComponent } from "./CustomInput";
+
+import LogoImage from "../assets/images/오즈_라이트.png";
+import dateFormatting from "../util/dateFormat";
 
 interface ErrorMessageObject {
   nameError: string;
@@ -25,6 +28,7 @@ const CreatingForm = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { handleChangeInput, handleSignUrl, ...value } = useVacation();
+  const { setItemToLocalStorage } = localStorageUtils();
   const [isValid, setIsValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState<ErrorMessageObject>({
     nameError: "",
@@ -47,8 +51,8 @@ const CreatingForm = () => {
     }
   };
   type ValidateDateParams = {
-    from?: string;
-    to?: string;
+    from?: Date;
+    to?: Date;
   };
 
   const validateDate = ({
@@ -69,22 +73,28 @@ const CreatingForm = () => {
     }
   };
   const validate = () => {
-    for (let em of Object.values(errorMessage)) {
-      console.log(em);
-      setIsValid(em ? false : true);
-    }
+    setIsValid(
+      [
+        value.birth,
+        value.duringFrom,
+        value.duringTo,
+        value.flag,
+        value.name,
+      ].every((v) => !!v)
+    );
   };
 
   useEffect(() => {
     validate();
   }, [value.birth, value.duringFrom, value.duringTo, value.flag, value.name]);
 
-  const INPUT_ELEMENTS = [
+  const INPUT_ELEMENTS: ErrorMessageComponent[] = [
     {
       htmlFor: "name",
       labelText: "이름*",
       type: "text",
       placeholder: "이름을 입력해주세요.",
+      value: value.name,
       onChange(e: ChangeEvent<HTMLInputElement>) {
         validateRequired((e.target as HTMLInputElement).value, "nameError");
         handleChangeInput<HTMLInputElement>(e);
@@ -96,6 +106,7 @@ const CreatingForm = () => {
       labelText: "생년월일",
       type: "date",
       max: "9999-12-31",
+      value: dateFormatting(value.birth),
       onChange(e: ChangeEvent<HTMLInputElement>) {
         validateRequired((e.target as HTMLInputElement).value, "birthError");
         handleChangeInput<HTMLInputElement>(e);
@@ -105,7 +116,8 @@ const CreatingForm = () => {
     {
       htmlFor: "flag",
       labelText: "기수*",
-      type: "text",
+      type: "number",
+      value: value.flag,
       placeholder: "예시) 7기 -> 7",
       onChange(e: ChangeEvent<HTMLInputElement>) {
         validateRequired((e.target as HTMLInputElement).value, "flagError");
@@ -117,10 +129,11 @@ const CreatingForm = () => {
       htmlFor: "duringFrom",
       labelText: "휴가 시작일*",
       type: "date",
+      value: dateFormatting(value.duringFrom),
       max: "9999-12-31",
       onChange(e: ChangeEvent<HTMLInputElement>) {
         validateRequired((e.target as HTMLInputElement).value, "duringError");
-        validateDate({ from: (e.target as HTMLInputElement).value });
+        validateDate({ from: new Date((e.target as HTMLInputElement).value) });
         handleChangeInput<HTMLInputElement>(e);
       },
       errorMessage: errorMessage.duringError,
@@ -129,10 +142,11 @@ const CreatingForm = () => {
       htmlFor: "duringTo",
       labelText: "휴가 종료일*",
       type: "date",
+      value: dateFormatting(value.duringTo),
       max: "9999-12-31",
       onChange(e: ChangeEvent<HTMLInputElement>) {
         validateRequired((e.target as HTMLInputElement).value, "duringError");
-        validateDate({ to: (e.target as HTMLInputElement).value });
+        validateDate({ to: new Date((e.target as HTMLInputElement).value) });
         handleChangeInput<HTMLInputElement>(e);
       },
       errorMessage: errorMessage.duringError,
@@ -142,6 +156,7 @@ const CreatingForm = () => {
       labelText: "작성일(기본: 당일)",
       type: "date",
       max: "9999-12-31",
+      value: dateFormatting(value.writedAt),
       onChange: handleChangeInput<HTMLInputElement>,
     },
     {
@@ -149,6 +164,7 @@ const CreatingForm = () => {
       labelText: "휴가 사유(선택)",
       type: "text",
       placeholder: "개인 사정으로 인한 휴가",
+      value: value.reason,
       onChange: handleChangeInput<HTMLInputElement>,
     },
   ];
@@ -159,7 +175,10 @@ const CreatingForm = () => {
     if (canvasCurrent) {
       const url = canvasCurrent.toDataURL();
       handleSignUrl(url);
-
+      setItemToLocalStorage(LOCALSTORAGE_KEY.vacationData, {
+        ...value,
+        signUrl: url,
+      });
       navigate("/preview");
     } else {
       console.error("canvasCurrent 없음");

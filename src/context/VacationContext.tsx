@@ -3,15 +3,19 @@ import {
   PropsWithChildren,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
+import localStorageUtils from "../util/localStorageUtils";
+import LOCALSTORAGE_KEY from "../util/localStorageKey";
+import { useNavigate } from "react-router-dom";
 
 export interface InputValueType {
   name: string;
-  birth: string;
+  birth: Date;
   flag: number;
-  duringFrom: string;
-  duringTo: string;
+  duringFrom: Date;
+  duringTo: Date;
   reason: string;
   writedAt?: Date;
   track:
@@ -30,10 +34,10 @@ const INITIAL_VACATION: Omit<
   "handleChangeInput" | "signUrl" | "handleSignUrl"
 > = {
   name: "",
-  birth: new Date().toDateString(),
+  birth: new Date(),
   flag: 0,
-  duringFrom: new Date().toDateString(),
-  duringTo: new Date().toDateString(),
+  duringFrom: new Date(),
+  duringTo: new Date(),
   reason: "개인 사정으로 인한 휴가",
   track: "초격차 웹 개발 캠프(프론트엔드)",
 };
@@ -46,6 +50,7 @@ const VacationContext = createContext<InputValueType>({
 });
 
 export const VacationProvider = ({ children }: PropsWithChildren) => {
+  const navigate = useNavigate();
   const [value, setValue] =
     useState<
       Omit<InputValueType, "handleChangeInput" | "signUrl" | "handleSignUrl">
@@ -63,6 +68,24 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
   const handleSignUrl = (newSignUrl: string) => {
     setSignUrl(newSignUrl);
   };
+
+  useEffect(() => {
+    const getLocalStorage = () => {
+      const { getItemFromLocalStorage } = localStorageUtils();
+      const vacationData = getItemFromLocalStorage<
+        Omit<InputValueType, "handleChangeInput" | "handleSignUrl">
+      >(LOCALSTORAGE_KEY.vacationData);
+      if (vacationData) {
+        const { signUrl, ...inputs } = vacationData;
+        setValue(inputs);
+        setSignUrl(signUrl);
+      } else {
+        navigate("/");
+      }
+    };
+    getLocalStorage();
+  }, []);
+
   return (
     <VacationContext.Provider
       value={{ ...value, signUrl: signUrl, handleChangeInput, handleSignUrl }}

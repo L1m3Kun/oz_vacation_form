@@ -4,9 +4,8 @@ const localStorageUtils = () => {
     if (strItem) {
       const item = JSON.parse(strItem);
       return item as T;
-    } else {
-      throw new Error(`${itemKey} is undefined`);
     }
+    return;
   };
   const setItemToLocalStorage = <T>(itemKey: string, item: T) => {
     const strItem = JSON.stringify(item);

@@ -1,6 +1,6 @@
-import { ComponentPropsWithRef, ComponentType } from "react";
+import { ComponentPropsWithoutRef, ComponentType } from "react";
 
-interface CustomInputProps extends ComponentPropsWithRef<"input"> {
+interface CustomInputProps extends ComponentPropsWithoutRef<"input"> {
   htmlFor: string;
 }
 
@@ -42,7 +42,7 @@ const withLabel = (WrappedComponent: ComponentType<CustomInputProps>) => {
   };
 };
 
-interface ErrorMessageComponent extends LabelComponent {
+export interface ErrorMessageComponent extends LabelComponent {
   errorMessage?: string;
 }
 
