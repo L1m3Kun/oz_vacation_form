@@ -72,19 +72,46 @@ const CreatingForm = () => {
       }));
     }
   };
-  const validate = () => {
-    setIsValid(
-      [
-        value.birth,
-        value.duringFrom,
-        value.duringTo,
-        value.flag,
-        value.name,
-      ].every((v) => !!v)
-    );
+
+  const isCanvasBlank = (canvas: HTMLCanvasElement) => {
+    return (canvas.getContext("2d") as CanvasRenderingContext2D)
+      .getImageData(0, 0, canvas.width, canvas.height)
+      .data.some((channel) => channel !== 0);
+  };
+
+  const createVacationForm = (event: React.MouseEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const canvasCurrent = canvasRef.current;
+    if (canvasCurrent) {
+      if (isCanvasBlank(canvasCurrent)) {
+        const url = canvasCurrent.toDataURL();
+
+        handleSignUrl(url);
+        setItemToLocalStorage(LOCALSTORAGE_KEY.vacationData, {
+          ...value,
+          signUrl: url,
+        });
+        navigate("/preview");
+      } else {
+        alert("서명이 비어있습니다.");
+      }
+    } else {
+      console.error("canvasCurrent 없음");
+    }
   };
 
   useEffect(() => {
+    const validate = () => {
+      setIsValid(
+        [
+          value.birth,
+          value.duringFrom,
+          value.duringTo,
+          value.flag,
+          value.name,
+        ].every((v) => !!v)
+      );
+    };
     validate();
   }, [value.birth, value.duringFrom, value.duringTo, value.flag, value.name]);
 
@@ -168,22 +195,6 @@ const CreatingForm = () => {
       onChange: handleChangeInput<HTMLInputElement>,
     },
   ];
-
-  const createVacationForm = (event: React.MouseEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const canvasCurrent = canvasRef.current;
-    if (canvasCurrent) {
-      const url = canvasCurrent.toDataURL();
-      handleSignUrl(url);
-      setItemToLocalStorage(LOCALSTORAGE_KEY.vacationData, {
-        ...value,
-        signUrl: url,
-      });
-      navigate("/preview");
-    } else {
-      console.error("canvasCurrent 없음");
-    }
-  };
 
   return (
     <form onSubmit={createVacationForm} className="mx-auto">

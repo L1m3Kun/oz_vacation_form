@@ -1,4 +1,5 @@
 import React, { RefObject, useState } from "react";
+import { useVacation } from "../context/VacationContext";
 
 interface DrawParams {
   canvasRef: RefObject<HTMLCanvasElement>;
@@ -6,6 +7,7 @@ interface DrawParams {
 
 const useDraw = ({ canvasRef }: DrawParams) => {
   const [isDrawing, setIsDrawing] = useState(false);
+  const { handleSignUrl } = useVacation();
   const startDrawing = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -62,6 +64,7 @@ const useDraw = ({ canvasRef }: DrawParams) => {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    handleSignUrl("");
   };
 
   return { canvasRef, startDrawing, draw, stopDrawing, clearCanvas };
