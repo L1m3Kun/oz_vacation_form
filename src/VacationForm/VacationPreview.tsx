@@ -37,7 +37,7 @@ const VacationPreview = () => {
     duringFrom: df,
     duringTo: dt,
   })}일)`;
-  const birth = `${bd.getFullYear() % 100}.${changeTwoDay(
+  const birth = `${changeTwoDay(bd.getFullYear() % 100)}.${changeTwoDay(
     bd.getMonth() + 1
   )}.${changeTwoDay(bd.getDate())}`;
   const writedAt = `${wa.getFullYear()}년   ${
