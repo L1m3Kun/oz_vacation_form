@@ -38,6 +38,7 @@ const INITIAL_VACATION: Omit<
   flag: 0,
   duringFrom: new Date(),
   duringTo: new Date(),
+  writedAt: new Date(),
   reason: "개인 사정으로 인한 휴가",
   track: "초격차 웹 개발 캠프(프론트엔드)",
 };
