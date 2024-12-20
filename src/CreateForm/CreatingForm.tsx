@@ -1,83 +1,31 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useVacation } from "../context/VacationContext";
 import SignatureCanvas from "../Canvas/SignatureCanvas";
+import useValidate from "./useValidate";
+
 import localStorageUtils from "../util/localStorageUtils";
 import LOCALSTORAGE_KEY from "../util/localStorageKey";
+import dateFormatting from "../util/dateFormat";
 
 import CustomSelect from "./CustomSelect";
 import CustomInput, { ErrorMessageComponent } from "./CustomInput";
 
 import LogoImage from "../assets/images/오즈_라이트.png";
-import dateFormatting from "../util/dateFormat";
-
-interface ErrorMessageObject {
-  nameError: string;
-  flagError: string;
-  birthError: string;
-  duringError: string;
-}
-
-const ERROR_MESSAGE = {
-  required: "필수 사항입니다.",
-  duringDate: "휴가 시작일은 휴가 종료일 보다 앞서야합니다.",
-};
 
 const CreatingForm = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { handleChangeInput, handleSignUrl, ...value } = useVacation();
   const { setItemToLocalStorage } = localStorageUtils();
-  const [isValid, setIsValid] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<ErrorMessageObject>({
-    nameError: "",
-    flagError: "",
-    birthError: "",
-    duringError: "",
-  });
-
-  const validateRequired = (value: string, errorType: string) => {
-    if (value === "") {
-      setErrorMessage((prev) => ({
-        ...prev,
-        [errorType]: ERROR_MESSAGE.required,
-      }));
-    } else {
-      setErrorMessage((prev) => ({
-        ...prev,
-        [errorType]: "",
-      }));
-    }
-  };
-  type ValidateDateParams = {
-    from?: Date;
-    to?: Date;
-  };
-
-  const validateDate = ({
-    from = value.duringFrom,
-    to = value.duringTo,
-  }: ValidateDateParams) => {
-    const [duringFrom, duringTo] = [new Date(from), new Date(to)];
-    if (duringFrom.getTime() > duringTo.getTime()) {
-      setErrorMessage((prev) => ({
-        ...prev,
-        duringError: ERROR_MESSAGE.duringDate,
-      }));
-    } else {
-      setErrorMessage((prev) => ({
-        ...prev,
-        duringError: "",
-      }));
-    }
-  };
-
-  const isCanvasBlank = (canvas: HTMLCanvasElement) => {
-    return (canvas.getContext("2d") as CanvasRenderingContext2D)
-      .getImageData(0, 0, canvas.width, canvas.height)
-      .data.some((channel) => channel !== 0);
-  };
+  const {
+    isValid,
+    errorMessage,
+    isCanvasBlank,
+    validateDate,
+    validateRequired,
+  } = useValidate();
 
   const createVacationForm = (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -99,21 +47,6 @@ const CreatingForm = () => {
       console.error("canvasCurrent 없음");
     }
   };
-
-  useEffect(() => {
-    const validate = () => {
-      setIsValid(
-        [
-          value.birth,
-          value.duringFrom,
-          value.duringTo,
-          value.flag,
-          value.name,
-        ].every((v) => !!v)
-      );
-    };
-    validate();
-  }, [value.birth, value.duringFrom, value.duringTo, value.flag, value.name]);
 
   const INPUT_ELEMENTS: ErrorMessageComponent[] = [
     {
