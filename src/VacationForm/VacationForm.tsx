@@ -7,7 +7,9 @@ interface VacationFormProps {
   track?:
     | "초격차 웹 개발 캠프(프론트엔드)"
     | "초격차 웹 개발 캠프(백엔드)"
-    | "관리형 웹 풀스택 부트캠프";
+    | "관리형 웹 풀스택 부트캠프"
+    | "CEO 개발부트캠프"
+    | "디자인 부트캠프";
   flag?: string | number;
   during?: string;
   reason?: string;
