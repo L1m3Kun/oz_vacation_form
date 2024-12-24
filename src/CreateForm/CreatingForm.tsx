@@ -33,10 +33,18 @@ const CreatingForm = () => {
     if (canvasCurrent) {
       if (isCanvasBlank(canvasCurrent)) {
         const url = canvasCurrent.toDataURL();
-
+        const { birth, duringFrom, duringTo, flag, name, track } = value;
+        const localSavedValue = {
+          track,
+          birth,
+          duringFrom,
+          duringTo,
+          flag,
+          name,
+        };
         handleSignUrl(url);
         setItemToLocalStorage(LOCALSTORAGE_KEY.vacationData, {
-          ...value,
+          ...localSavedValue,
           signUrl: url,
         });
         navigate("/preview");
@@ -147,10 +155,7 @@ const CreatingForm = () => {
           <label htmlFor="track" className="pb-1">
             캠프명
           </label>
-          <CustomSelect
-            track={value.track}
-            onChange={handleChangeInput<HTMLSelectElement>}
-          />
+          <CustomSelect />
         </div>
         {INPUT_ELEMENTS.map((el) => (
           <CustomInput key={el.htmlFor} {...el} />
