@@ -18,7 +18,7 @@ const CreatingForm = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { handleChangeInput, handleSignUrl, ...value } = useVacation();
-  const { setItemToLocalStorage } = localStorageUtils();
+  const { setItemToLocalStorage, removeFromLocalStorage } = localStorageUtils();
   const {
     isValid,
     errorMessage,
@@ -43,6 +43,7 @@ const CreatingForm = () => {
           name,
         };
         handleSignUrl(url);
+        removeFromLocalStorage(LOCALSTORAGE_KEY.vacationData);
         setItemToLocalStorage(LOCALSTORAGE_KEY.vacationData, {
           ...localSavedValue,
           signUrl: url,
