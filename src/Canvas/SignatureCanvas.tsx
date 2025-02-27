@@ -21,9 +21,13 @@ const SignatureCanvas = ({ reff }: SignatureCanvasProps) => {
           width={"320rem"}
           height={"160rem"}
           onMouseDown={startDrawing}
+          onTouchStart={startDrawing}
+          onTouchMove={draw}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
+          onTouchEnd={stopDrawing}
           onMouseLeave={stopDrawing}
+          onTouchCancel={stopDrawing}
         ></canvas>
         <button
           type="button"

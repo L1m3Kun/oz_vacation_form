@@ -162,7 +162,6 @@ const CreatingForm = () => {
           <CustomInput key={el.htmlFor} {...el} />
         ))}
         <SignatureCanvas reff={canvasRef} />
-        {/* <p>{errorMessage.signError}</p> */}
         <button
           type="submit"
           id="submit"
