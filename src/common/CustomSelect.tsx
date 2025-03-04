@@ -1,4 +1,6 @@
+import { ComponentPropsWithoutRef } from "react";
 import { useVacation } from "../context/VacationContext";
+import { withLabelSelect } from "./withLabel";
 
 const TRACKS = [
   {
@@ -11,15 +13,20 @@ const TRACKS = [
   { id: "DS", value: "디자인 부트캠프" },
 ];
 
-const CustomSelect = () => {
+export interface SelectProps extends ComponentPropsWithoutRef<"select"> {
+  htmlFor: string;
+}
+
+export const Select = ({ htmlFor, ...rest }: SelectProps) => {
   const { track, handleChangeInput } = useVacation();
   return (
     <select
       defaultValue={track}
       onChange={handleChangeInput}
       className="text-black w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-      name="track"
-      id="track"
+      name={htmlFor}
+      id={htmlFor}
+      {...rest}
     >
       {TRACKS.map((track) => (
         <option key={track.id} id={track.value}>
@@ -29,5 +36,7 @@ const CustomSelect = () => {
     </select>
   );
 };
+
+const CustomSelect = withLabelSelect(Select);
 
 export default CustomSelect;
