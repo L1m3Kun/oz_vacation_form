@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "sign-img": "url('./assets/images/사인칸.png')",
+        "sign-img": "url('./assets/images/서명란.png')",
       },
     },
   },
