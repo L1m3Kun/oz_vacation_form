@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useVacation } from "../context/VacationContext";
+import { useVacation } from "../../context/VacationContext";
 
 type ValidateDateParams = {
   from?: Date;

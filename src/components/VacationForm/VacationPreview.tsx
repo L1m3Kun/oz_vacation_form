@@ -1,8 +1,8 @@
 import { PDFViewer } from "@react-pdf/renderer";
 
-import { useVacation } from "../context/VacationContext";
-import getDateDiff from "../util/getDateDiff";
-import changeTwoDay from "../util/chageTwoDay";
+import { useVacation } from "../../context/VacationContext";
+import getDateDiff from "../../util/getDateDiff";
+import changeTwoDay from "../../util/chageTwoDay";
 
 import { styles } from "./VacationStyle";
 import VacationForm from "./VacationForm";
