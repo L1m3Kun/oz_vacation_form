@@ -5,6 +5,7 @@ type ValidateDateParams = {
   from?: Date;
   to?: Date;
 };
+
 interface ErrorMessageObject {
   nameError: string;
   flagError: string;
@@ -12,13 +13,29 @@ interface ErrorMessageObject {
   duringError: string;
 }
 
+interface Validations {
+  userValid: boolean;
+  vacationValid: boolean;
+  canvasValid: boolean;
+}
+
 const ERROR_MESSAGE = {
   required: "필수 사항입니다.",
   duringDate: "휴가 시작일은 휴가 종료일 보다 앞서야합니다.",
 };
 
-const useValidate = () => {
-  const [isValid, setIsValid] = useState(false);
+const DEFAULT_VALIDATIONS: Validations = {
+  userValid: false,
+  vacationValid: false,
+  canvasValid: false,
+};
+
+interface ValidateParams {
+  canvasRef?: React.RefObject<HTMLCanvasElement>;
+}
+
+const useValidate = ({ canvasRef }: ValidateParams) => {
+  const [isValid, setIsValid] = useState<Validations>(DEFAULT_VALIDATIONS);
   const { handleChangeInput, handleSignUrl, ...value } = useVacation();
   const [errorMessage, setErrorMessage] = useState<ErrorMessageObject>({
     nameError: "",
@@ -26,12 +43,6 @@ const useValidate = () => {
     birthError: "",
     duringError: "",
   });
-
-  const isCanvasBlank = (canvas: HTMLCanvasElement) => {
-    return (canvas.getContext("2d") as CanvasRenderingContext2D)
-      .getImageData(0, 0, canvas.width, canvas.height)
-      .data.some((channel) => channel !== 0);
-  };
 
   const validateRequired = (value: string, errorType: string) => {
     if (value === "") {
@@ -65,27 +76,42 @@ const useValidate = () => {
     }
   };
 
+  const handleValidations = (valids: Partial<Validations>) => {
+    setIsValid((prev) => ({ ...prev, ...valids }));
+  };
+
+  const isCanvasValid = (currentCanvas?: HTMLCanvasElement) => {
+    if (currentCanvas) {
+      return (currentCanvas.getContext("2d") as CanvasRenderingContext2D)
+        .getImageData(0, 0, currentCanvas.width, currentCanvas.height)
+        .data.some((channel) => channel !== 0);
+    } else {
+      return false;
+    }
+  };
   useEffect(() => {
     const validate = () => {
-      setIsValid(
-        [
-          value.birth,
-          value.duringFrom,
-          value.duringTo,
-          value.flag,
-          value.name,
-        ].every((v) => !!v)
-      );
+      handleValidations({
+        userValid: [value.birth, value.flag, value.name].every((v) => !!v),
+        vacationValid: [value.duringFrom, value.duringTo].every((v) => !!v),
+      });
     };
     validate();
-  }, [value.birth, value.duringFrom, value.duringTo, value.flag, value.name]);
+  }, [
+    value.birth,
+    value.duringFrom,
+    value.duringTo,
+    value.flag,
+    value.name,
+    canvasRef,
+  ]);
 
   return {
     isValid,
     errorMessage,
     validateDate,
     validateRequired,
-    isCanvasBlank,
+    isCanvasValid,
   };
 };
 
