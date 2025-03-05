@@ -1,9 +1,9 @@
-import { RouterConfig } from "./routes";
+import CreatingFormController from "./components/CreateForm/CreatingFormController";
 
 function App() {
   return (
     <>
-      <RouterConfig />
+      <CreatingFormController />
     </>
   );
 }

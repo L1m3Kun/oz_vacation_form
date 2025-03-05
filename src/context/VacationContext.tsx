@@ -8,7 +8,6 @@ import {
 } from "react";
 import localStorageUtils from "../util/localStorageUtils";
 import LOCALSTORAGE_KEY from "../util/localStorageKey";
-import { useNavigate } from "react-router-dom";
 
 export interface InputValueType {
   name: string;
@@ -53,7 +52,6 @@ const VacationContext = createContext<InputValueType>({
 });
 
 export const VacationProvider = ({ children }: PropsWithChildren) => {
-  const navigate = useNavigate();
   const [value, setValue] =
     useState<
       Omit<InputValueType, "handleChangeInput" | "signUrl" | "handleSignUrl">
@@ -82,8 +80,6 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
         const { signUrl, ...inputs } = vacationData;
         setValue(inputs);
         setSignUrl(signUrl);
-      } else {
-        navigate("/");
       }
     };
     getLocalStorage();
