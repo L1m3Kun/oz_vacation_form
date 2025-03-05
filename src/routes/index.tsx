@@ -1,9 +1,9 @@
 import { Route, RouteProps, Routes } from "react-router-dom";
-import CreatingForm from "../components/CreateForm/CreatingForm";
+import CreatingFormController from "../components/CreateForm/CreatingFormController";
 import VacationPreview from "../components/VacationForm/VacationPreview";
 
 export const RouteList: RouteProps[] = [
-  { path: "/", element: <CreatingForm /> },
+  { path: "/", element: <CreatingFormController /> },
   { path: "/preview", element: <VacationPreview /> },
 ];
 

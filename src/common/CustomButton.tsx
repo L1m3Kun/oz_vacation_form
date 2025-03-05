@@ -5,10 +5,10 @@ interface CustomButtonProps extends ComponentPropsWithoutRef<"button"> {
 }
 
 const DEFAULT_CLASS_NAME =
-  "rounded-md min-w-20 bg-purple-600 min-h-6 px-4 py-2 font-semibold shadow-lg border-solid border-fuchsia-900 hover:bg-purple-800";
+  "rounded-md min-w-20 bg-purple-600 min-h-6 px-4 py-2 font-semibold shadow-lg border-solid border-fuchsia-900 hover:bg-purple-800 disabled:text-gray-400 disabled:bg-gray-700";
 
 const OUTLINE_CLASS_NAME =
-  "rounded-md min-w-20 min-h-6 px-4 py-2 border-solid border hover:bg-gray-700";
+  "rounded-md min-w-20 min-h-6 px-4 py-2 border-solid border hover:bg-gray-700 disabled:border-gray-500 disabled:bg-none";
 
 const CustomButton = ({
   mode,

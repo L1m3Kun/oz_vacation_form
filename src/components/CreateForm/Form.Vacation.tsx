@@ -1,16 +1,20 @@
 import { ErrorMessageComponent } from "../../common/withErrorMessage";
 import Description from "../../common/Description";
 import Title from "../../common/Title";
-import PageButtons from "../../common/PageButtons";
+import PageButtons, { PageButtonsProps } from "../../common/PageButtons";
 
 import { useVacation } from "../../context/VacationContext";
 import dateFormatting from "../../util/dateFormat";
 import CustomInput from "../../common/CustomInput";
 import useValidate from "./useValidate";
 
-const FormVacation = () => {
+const FormVacation = ({
+  prevAction,
+  nextAction,
+  isValid,
+}: Pick<PageButtonsProps, "prevAction" | "nextAction" | "isValid">) => {
   const { handleChangeInput, handleSignUrl, ...value } = useVacation();
-  const { errorMessage, validateDate, validateRequired } = useValidate();
+  const { errorMessage, validateDate, validateRequired } = useValidate({});
   const INPUT_ELEMENTS: ErrorMessageComponent[] = [
     {
       htmlFor: "duringFrom",
@@ -62,7 +66,12 @@ const FormVacation = () => {
       {INPUT_ELEMENTS.map((el) => (
         <CustomInput key={el.htmlFor} {...el} />
       ))}
-      <PageButtons mode="both" />
+      <PageButtons
+        mode="both"
+        prevAction={prevAction}
+        nextAction={nextAction}
+        isValid={isValid}
+      />
     </section>
   );
 };

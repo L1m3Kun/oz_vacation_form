@@ -1,16 +1,22 @@
 import CustomButton from "./CustomButton";
 
-interface PageButtonsProps {
+export interface PageButtonsProps {
   mode: "prevOnly" | "nextOnly" | "both";
   prevAction?: () => void;
+  isValid?: boolean;
   nextAction?: () => void;
 }
 
-const PageButtons = ({ mode, prevAction, nextAction }: PageButtonsProps) => {
+const PageButtons = ({
+  mode,
+  prevAction,
+  nextAction,
+  isValid,
+}: PageButtonsProps) => {
   switch (mode) {
     case "prevOnly":
       return (
-        <div className="flex items-center gap-4 pt-8">
+        <div className="flex items-center justify-center gap-4">
           <CustomButton mode="outline" onClick={prevAction}>
             이전
           </CustomButton>
@@ -18,19 +24,19 @@ const PageButtons = ({ mode, prevAction, nextAction }: PageButtonsProps) => {
       );
     case "nextOnly":
       return (
-        <div className="flex items-center gap-4 pt-8">
-          <CustomButton mode="default" onClick={nextAction}>
+        <div className="flex items-center justify-center gap-4">
+          <CustomButton mode="default" onClick={nextAction} disabled={!isValid}>
             다음
           </CustomButton>
         </div>
       );
     default:
       return (
-        <div className="flex items-center gap-4 pt-8">
+        <div className="flex items-center justify-center gap-4">
           <CustomButton mode="outline" onClick={prevAction}>
             이전
           </CustomButton>
-          <CustomButton mode="default" onClick={nextAction}>
+          <CustomButton mode="default" onClick={nextAction} disabled={!isValid}>
             다음
           </CustomButton>
         </div>

@@ -3,15 +3,19 @@ import CustomInput from "../../common/CustomInput";
 import { ErrorMessageComponent } from "../../common/withErrorMessage";
 import Title from "../../common/Title";
 import Description from "../../common/Description";
-import PageButtons from "../../common/PageButtons";
+import PageButtons, { PageButtonsProps } from "../../common/PageButtons";
 
 import useValidate from "./useValidate";
 import { useVacation } from "../../context/VacationContext";
 import dateFormatting from "../../util/dateFormat";
 
-const FormUser = () => {
+const FormUser = ({
+  prevAction,
+  nextAction,
+  isValid,
+}: Pick<PageButtonsProps, "prevAction" | "nextAction" | "isValid">) => {
   const { handleChangeInput, handleSignUrl, ...value } = useVacation();
-  const { errorMessage, validateRequired } = useValidate();
+  const { errorMessage, validateRequired } = useValidate({});
 
   const INPUT_ELEMENTS: ErrorMessageComponent[] = [
     {
@@ -61,7 +65,12 @@ const FormUser = () => {
       {INPUT_ELEMENTS.map((el) => (
         <CustomInput key={el.htmlFor} {...el} />
       ))}
-      <PageButtons mode="both" />
+      <PageButtons
+        mode="both"
+        prevAction={prevAction}
+        nextAction={nextAction}
+        isValid={isValid}
+      />
     </section>
   );
 };

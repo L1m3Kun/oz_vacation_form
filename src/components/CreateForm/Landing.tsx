@@ -2,7 +2,7 @@ import LogoImage from "../../assets/images/오즈_라이트.png";
 import CustomButton from "../../common/CustomButton";
 
 interface LandingProps {
-  handleStart?: () => void;
+  handleStart: () => void;
 }
 
 const Landing = ({ handleStart }: LandingProps) => {
