@@ -44,7 +44,7 @@ export const withLabelSelect = (
 ) => {
   return ({ labelText, htmlFor, ...rest }: LabelComponentWithSelect) => {
     return (
-      <div className="w-full max-w-sm mx-auto pb-4">
+      <div className="w-full max-w-sm mx-auto pb-[1.45rem]">
         <label
           className="block text-sm font-medium text-white mb-1"
           htmlFor={htmlFor}
