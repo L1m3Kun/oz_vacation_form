@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { VacationProvider } from "./context/VacationContext";
 import App from "./App";
 import "./index.css";
+import { ModalProvider } from "./context/ModalContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -12,7 +13,9 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <VacationProvider>
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
       </VacationProvider>
     </BrowserRouter>
   </StrictMode>
