@@ -6,6 +6,9 @@ module.exports = {
       backgroundImage: {
         "sign-img": "url('./assets/images/서명란.png')",
       },
+      colors: {
+        dark: "#2e3134",
+      },
     },
   },
   plugins: [],
