@@ -60,7 +60,7 @@ const FormVacation = ({
     },
   ];
   return (
-    <section className="h-screen w-full mx-auto flex flex-col justify-center items-center gap-2">
+    <section className="h-screen w-full mx-auto flex flex-col justify-center items-center gap-2 px-2">
       <Title>휴가 정보 입력</Title>
       <Description>해당 정보는 휴가 신청서 작성 시에만 사용됩니다.</Description>
       {INPUT_ELEMENTS.map((el) => (

@@ -13,6 +13,7 @@ import { useVacation } from "../../context/VacationContext";
 import useValidate from "./useValidate";
 import { SignatureCanvasProps } from "../Canvas/SignatureCanvas";
 import { useModal } from "../../context/ModalContext";
+import CustomButton from "../../common/CustomButton";
 
 const VacationPreview = lazy(() => import("../VacationForm/VacationPreview"));
 
@@ -68,6 +69,13 @@ const CurrentPage = ({
       return (
         <Suspense fallback={<LoadingSpinner />}>
           <VacationPreview />
+          <CustomButton
+            mode="custom"
+            className="absolute bottom-4 left-4  bg-dark p-3 rounded-md shadow-md outline-white outline-1 outline hover:bg-amber-600"
+            onClick={handlePrevAction}
+          >
+            뒤로가기
+          </CustomButton>
         </Suspense>
       );
 
@@ -120,7 +128,7 @@ const CreatingFormController = () => {
   };
 
   return (
-    <main className="">
+    <main className="relative">
       <CurrentPage
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

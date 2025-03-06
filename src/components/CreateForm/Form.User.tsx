@@ -58,7 +58,7 @@ const FormUser = ({
     },
   ];
   return (
-    <section className="h-screen w-full max-w-sm mx-auto flex flex-col justify-center items-center gap-2">
+    <section className="h-screen w-full max-w-sm mx-auto flex flex-col justify-center items-center gap-2 px-2">
       <Title>수강생 정보 입력</Title>
       <Description>해당 정보는 휴가 신청서 작성 시에만 사용됩니다.</Description>
       <CustomSelect htmlFor="track" labelText="캠프명*" />
