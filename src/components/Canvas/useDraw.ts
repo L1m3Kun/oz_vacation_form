@@ -13,7 +13,6 @@ const useDraw = ({ canvasRef }: DrawParams) => {
       | React.MouseEvent<HTMLCanvasElement>
       | React.TouchEvent<HTMLCanvasElement>
   ) => {
-    event.preventDefault();
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -45,8 +44,6 @@ const useDraw = ({ canvasRef }: DrawParams) => {
       | React.MouseEvent<HTMLCanvasElement>
       | React.TouchEvent<HTMLCanvasElement>
   ) => {
-    event.preventDefault();
-    event.stopPropagation();
     if (!isDrawing) return;
 
     const canvas = canvasRef.current;
