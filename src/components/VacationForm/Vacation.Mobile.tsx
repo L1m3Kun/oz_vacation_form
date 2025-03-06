@@ -29,7 +29,7 @@ const VacationMobile = ({ documentS }: VacationMobileProps) => {
   }, [makeUrlFromPDF]);
 
   return (
-    <div className="h-full w-full text-center flex flex-col justify-center items-center gap-8">
+    <div className="h-screen w-full text-center flex flex-col justify-center items-center gap-8">
       <p className="font-semibold">
         모바일 환경에서는 미리보기가 제공되지 않습니다.
       </p>

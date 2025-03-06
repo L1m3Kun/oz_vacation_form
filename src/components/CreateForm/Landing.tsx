@@ -7,8 +7,8 @@ interface LandingProps {
 
 const Landing = ({ handleStart }: LandingProps) => {
   return (
-    <div className="h-screen  flex flex-col justify-center items-center">
-      <h1 className="p-5 flex flex-col justify-center gap-6 text-center items-center font-extrabold text-3xl">
+    <div className="h-screen flex flex-col justify-center items-center">
+      <h1 className="pb-5 flex flex-col justify-center gap-6 text-center items-center font-extrabold text-3xl">
         <img
           src={LogoImage}
           alt="로고"
