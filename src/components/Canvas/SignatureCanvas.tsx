@@ -13,7 +13,7 @@ const SignatureCanvas = ({ reff }: SignatureCanvasProps) => {
   const { windowWidthSize } = useResize();
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-sm mx-auto gap-4 pb-10">
+    <div className="flex flex-col items-center justify-center w-full max-w-sm mx-auto gap-4 pb-10 touch-none">
       <button
         type="button"
         onClick={clearCanvas}
