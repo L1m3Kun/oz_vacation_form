@@ -6,12 +6,15 @@ import changeTwoDay from "../../util/chageTwoDay";
 
 import { styles } from "./VacationStyle";
 import VacationForm from "./VacationForm";
+import useIsMobile from "../../common/useIsMobile";
+import VacationMobile from "./Vacation.Mobile";
 
 const now = new Date();
 const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
 const koreaTimeDiff = 32400000;
 
 const VacationPreview = () => {
+  const isMobile = useIsMobile();
   const {
     name,
     birth: birthDay,
@@ -23,7 +26,6 @@ const VacationPreview = () => {
     signUrl,
     writedAt: strWritedAt,
   } = useVacation();
-
   const df = new Date(duringFrom);
   const dt = new Date(duringTo);
   const bd = new Date(birthDay);
@@ -33,10 +35,12 @@ const VacationPreview = () => {
     df.getMonth() + 1
   )}.${changeTwoDay(df.getDate())} ~ ${dt.getFullYear()}.${changeTwoDay(
     dt.getMonth() + 1
-  )}.${changeTwoDay(dt.getDate())}(${getDateDiff({
-    duringFrom: df,
-    duringTo: dt,
-  })}일)`;
+  )}.${changeTwoDay(dt.getDate())}(${Math.floor(
+    getDateDiff({
+      duringFrom: df,
+      duringTo: dt,
+    })
+  )}일)`;
   const birth = `${changeTwoDay(bd.getFullYear() % 100)}.${changeTwoDay(
     bd.getMonth() + 1
   )}.${changeTwoDay(bd.getDate())}`;
@@ -54,10 +58,17 @@ const VacationPreview = () => {
     signUrl,
     writedAt,
   };
+
   return (
-    <PDFViewer style={styles.previewContainer}>
-      <VacationForm {...value} />
-    </PDFViewer>
+    <>
+      {isMobile ? (
+        <VacationMobile documentS={<VacationForm {...value} />} />
+      ) : (
+        <PDFViewer style={styles.previewContainer}>
+          <VacationForm {...value} />
+        </PDFViewer>
+      )}
+    </>
   );
 };
 
