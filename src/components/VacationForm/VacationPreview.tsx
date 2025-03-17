@@ -26,9 +26,9 @@ const VacationPreview = () => {
     signUrl,
     writedAt: strWritedAt,
   } = useVacation();
-  const df = new Date(duringFrom);
-  const dt = new Date(duringTo);
-  const bd = new Date(birthDay);
+  const df = new Date(duringFrom ?? "");
+  const dt = new Date(duringTo ?? "");
+  const bd = new Date(birthDay ?? "");
   const wa = new Date(strWritedAt ?? utc + koreaTimeDiff);
 
   const during = `${df.getFullYear()}.${changeTwoDay(

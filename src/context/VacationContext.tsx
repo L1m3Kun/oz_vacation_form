@@ -11,13 +11,14 @@ import LOCALSTORAGE_KEY from "../util/localStorageKey";
 
 export interface InputValueType {
   name: string;
-  birth: Date;
-  flag: number;
-  duringFrom: Date;
-  duringTo: Date;
+  birth: Date | string;
+  flag: string;
+  duringFrom: Date | string;
+  duringTo: Date | string;
   reason: string;
-  writedAt?: Date;
+  writedAt: Date | string;
   track:
+    | "------ 트랙 선택 ------"
     | "초격차 웹 개발 캠프(프론트엔드)"
     | "초격차 웹 개발 캠프(백엔드)"
     | "관리형 웹 풀스택 부트캠프"
@@ -35,13 +36,13 @@ const INITIAL_VACATION: Omit<
   "handleChangeInput" | "signUrl" | "handleSignUrl"
 > = {
   name: "",
-  birth: new Date(),
-  flag: 0,
-  duringFrom: new Date(),
-  duringTo: new Date(),
-  writedAt: new Date(),
+  birth: new Date(Date.now()),
+  flag: "",
+  duringFrom: "",
+  duringTo: "",
+  writedAt: new Date(Date.now()),
   reason: "개인 사정으로 인한 휴가",
-  track: "초격차 웹 개발 캠프(프론트엔드)",
+  track: "------ 트랙 선택 ------",
 };
 
 const VacationContext = createContext<InputValueType>({
@@ -62,6 +63,7 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
     e: ChangeEvent<T>
   ) => {
     const target = e.target as T;
+    console.log(target);
     if (target.id in value) {
       setValue((prev) => ({ ...prev, [target.id]: target.value }));
     }
@@ -79,7 +81,6 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
       if (vacationData) {
         const { signUrl, ...inputs } = vacationData;
         setValue(inputs);
-        setSignUrl(signUrl);
       }
     };
     getLocalStorage();
