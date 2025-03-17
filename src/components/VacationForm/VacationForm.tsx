@@ -16,6 +16,7 @@ interface VacationFormProp {
   reason?: string;
   signUrl?: string;
   writedAt?: string;
+  downloadName?: string;
 }
 
 const VacationForm = ({
@@ -27,6 +28,7 @@ const VacationForm = ({
   reason = "개인 사정으로 인한 휴가",
   signUrl = "",
   writedAt = "",
+  downloadName = "",
 }: VacationFormProp) => {
   const tableValue = [
     { attribute: "성명", value: name },
@@ -37,7 +39,7 @@ const VacationForm = ({
   ];
 
   return (
-    <Document style={styles.previewContainer} title={`${name} 휴가 신청서.pdf`}>
+    <Document style={styles.previewContainer} title={downloadName}>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text>■ 오즈코딩스쿨 - 휴가신청서</Text>

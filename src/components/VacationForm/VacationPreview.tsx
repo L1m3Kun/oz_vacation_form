@@ -1,6 +1,6 @@
 import { PDFViewer } from "@react-pdf/renderer";
 
-import { useVacation } from "../../context/VacationContext";
+import { InputValueType, useVacation } from "../../context/VacationContext";
 import getDateDiff from "../../util/getDateDiff";
 import changeTwoDay from "../../util/chageTwoDay";
 
@@ -48,6 +48,28 @@ const VacationPreview = () => {
     wa.getMonth() + 1
   }월   ${wa.getDate()}일`;
 
+  const getTrack = (tr: InputValueType["track"]) => {
+    switch (tr) {
+      case "초격차 웹 개발 캠프(프론트엔드)":
+        return "FE";
+      case "초격차 웹 개발 캠프(백엔드)":
+        return "BE";
+      case "관리형 웹 풀스택 부트캠프":
+        return "FS";
+      case "CEO 개발부트캠프":
+        return "CEO";
+      case "디자인 부트캠프":
+        return "DS";
+      default:
+        return "";
+    }
+  };
+
+  const downloadName = `${df.getFullYear().toString().slice(2)}${changeTwoDay(
+    df.getMonth() + 1
+  )}${df.getDate()}_${getTrack(track)}${changeTwoDay(
+    Number(flag)
+  )}_${name}.pdf`;
   const value = {
     name,
     birth,
@@ -57,14 +79,18 @@ const VacationPreview = () => {
     reason,
     signUrl,
     writedAt,
+    downloadName,
   };
 
   return (
     <>
       {isMobile ? (
-        <VacationMobile documentS={<VacationForm {...value} />} />
+        <VacationMobile
+          documentS={<VacationForm {...value} />}
+          downloadName={downloadName}
+        />
       ) : (
-        <PDFViewer style={styles.previewContainer}>
+        <PDFViewer style={styles.previewContainer} showToolbar>
           <VacationForm {...value} />
         </PDFViewer>
       )}

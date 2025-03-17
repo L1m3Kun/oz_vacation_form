@@ -5,9 +5,10 @@ import CustomButton from "../../common/CustomButton";
 
 interface VacationMobileProps {
   documentS: React.ReactElement;
+  downloadName: string;
 }
 
-const VacationMobile = ({ documentS }: VacationMobileProps) => {
+const VacationMobile = ({ documentS, downloadName }: VacationMobileProps) => {
   const [documentInstance] = usePDF({ document: documentS });
 
   const makeUrlFromPDF = useCallback(() => {
@@ -16,13 +17,13 @@ const VacationMobile = ({ documentS }: VacationMobileProps) => {
       const aTag = document.createElement("a");
       aTag.href = url;
       aTag.target = "_blank";
-      aTag.download = `휴가신청서.pdf`;
+      aTag.download = downloadName;
       document.body.appendChild(aTag);
       aTag.click();
       document.body.removeChild(aTag);
       URL.revokeObjectURL(url);
     }
-  }, [documentInstance]);
+  }, [documentInstance, downloadName]);
 
   useEffect(() => {
     makeUrlFromPDF();
