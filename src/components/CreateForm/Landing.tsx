@@ -1,5 +1,6 @@
 import LogoImage from "../../assets/images/오즈_라이트.png";
 import CustomButton from "../../common/CustomButton";
+import GithubIcon from "../../assets/icons/ic_github.svg";
 
 interface LandingProps {
   handleStart: () => void;
@@ -8,7 +9,7 @@ interface LandingProps {
 const Landing = ({ handleStart }: LandingProps) => {
   return (
     <div className="h-screen flex flex-col justify-center items-center">
-      <h1 className="pb-5 flex flex-col justify-center gap-6 text-center items-center font-extrabold text-3xl">
+      <h1 className="flex flex-col justify-center gap-6 text-center items-center font-extrabold text-3xl">
         <img
           src={LogoImage}
           alt="로고"
@@ -18,6 +19,28 @@ const Landing = ({ handleStart }: LandingProps) => {
         />
         <p className="">휴가 신청서 제작 폼</p>
       </h1>
+      <div className="flex items-center justify-between gap-3 my-5">
+        <CustomButton
+          mode="link"
+          href="https://github.com/L1m3Kun/oz_vacation_form"
+          className=" w-8 h-8"
+        >
+          <img
+            src={GithubIcon}
+            alt="Github 바로가기"
+            width={40}
+            height={40}
+            className="object-center w-full h-full bg-white rounded-full"
+          />
+        </CustomButton>
+        <CustomButton
+          href="https://github.com/L1m3Kun/oz_vacation_form/issues/2"
+          mode="link"
+          className="text-3xl"
+        >
+          💬
+        </CustomButton>
+      </div>
       <CustomButton mode="default" onClick={handleStart}>
         시작하기
       </CustomButton>

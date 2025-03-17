@@ -1,7 +1,8 @@
 import { ComponentPropsWithoutRef } from "react";
 
 interface CustomButtonProps extends ComponentPropsWithoutRef<"button"> {
-  mode: "outline" | "default" | "custom";
+  mode: "outline" | "default" | "custom" | "link";
+  href?: string;
 }
 
 const DEFAULT_CLASS_NAME =
@@ -10,10 +11,13 @@ const DEFAULT_CLASS_NAME =
 const OUTLINE_CLASS_NAME =
   "rounded-md min-w-20 min-h-6 px-4 py-2 border-solid border hover:bg-gray-700 disabled:border-gray-500 disabled:bg-none";
 
+const LINK_CLASS_NAME = "";
+
 const CustomButton = ({
   mode,
   children,
   className,
+  href,
   ...rest
 }: CustomButtonProps) => {
   switch (mode) {
@@ -28,6 +32,17 @@ const CustomButton = ({
         <button className={OUTLINE_CLASS_NAME + " " + className} {...rest}>
           {children}
         </button>
+      );
+    case "link":
+      return (
+        <a
+          className={LINK_CLASS_NAME + " " + className}
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {children}
+        </a>
       );
     default:
       return (
