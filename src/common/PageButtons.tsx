@@ -11,7 +11,7 @@ const PageButtons = ({
   mode,
   prevAction,
   nextAction,
-  isValid,
+  isValid = true,
 }: PageButtonsProps) => {
   switch (mode) {
     case "prevOnly":
