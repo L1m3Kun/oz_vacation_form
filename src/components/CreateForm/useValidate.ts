@@ -86,8 +86,8 @@ const useValidate = () => {
     if (duringFrom.getTime() > duringTo.getTime()) {
       setErrorMessage((prev) => ({
         ...prev,
-        duringTo: ERROR_MESSAGE.duringDate,
-        duringFrom: ERROR_MESSAGE.duringDate,
+        duringToError: ERROR_MESSAGE.duringDate,
+        duringFromError: ERROR_MESSAGE.duringDate,
       }));
       setVacationValid((prev) => ({
         ...prev,
@@ -97,8 +97,8 @@ const useValidate = () => {
     } else {
       setErrorMessage((prev) => ({
         ...prev,
-        duringTo: "",
-        duringFrom: "",
+        duringToError: "",
+        duringFromError: "",
       }));
       setVacationValid((prev) => ({
         ...prev,
@@ -112,7 +112,7 @@ const useValidate = () => {
     Object.entries({ track, name, birth, flag, duringFrom, duringTo }).forEach(
       ([objKey, objValue]) => {
         const errorName = `${objKey}Error`;
-
+        validateRequired(objKey, objValue.toString());
         switch (objKey) {
           case "track":
             if (objValue === "------ 트랙 선택 ------") {
@@ -164,7 +164,6 @@ const useValidate = () => {
           default:
             break;
         }
-        validateRequired(objKey, objValue.toString());
       }
     );
   }, [track, name, birth, flag, duringFrom, duringTo]);
