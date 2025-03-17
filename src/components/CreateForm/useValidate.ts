@@ -1,86 +1,174 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useVacation } from "../../context/VacationContext";
-
-type ValidateDateParams = {
-  from?: Date;
-  to?: Date;
-};
+import { calculateMinBirth } from "../../util/calculateMinBirth";
+import dateFormatting from "../../util/dateFormat";
 
 interface ErrorMessageObject {
+  trackError: string;
   nameError: string;
   flagError: string;
   birthError: string;
-  duringError: string;
+  duringToError: string;
+  duringFromError: string;
 }
 
-interface Validations {
-  userValid: boolean;
-  vacationValid: boolean;
-  canvasValid: boolean;
+export interface UserValidations {
+  track: boolean;
+  name: boolean;
+  birth: boolean;
+  flag: boolean;
 }
-
+export interface VacationValidations {
+  duringFrom: boolean;
+  duringTo: boolean;
+}
 const ERROR_MESSAGE = {
   required: "필수 사항입니다.",
   duringDate: "휴가 시작일은 휴가 종료일 보다 앞서야합니다.",
+  minDate: "유효하지 않은 날짜입니다. 날짜를 확인해주세요.",
 };
 
-const DEFAULT_VALIDATIONS: Validations = {
-  userValid: false,
-  vacationValid: false,
-  canvasValid: false,
+const USER_DEFAULT_VALIDATIONS: UserValidations = {
+  track: false,
+  name: false,
+  birth: false,
+  flag: false,
+};
+const VACATION_DEFAULT_VALIDATIONS: VacationValidations = {
+  duringFrom: false,
+  duringTo: false,
 };
 
-interface ValidateParams {
-  canvasRef?: React.RefObject<HTMLCanvasElement>;
-}
+const useValidate = () => {
+  const [userValid, setUserValid] = useState<UserValidations>(
+    USER_DEFAULT_VALIDATIONS
+  );
+  const [vacationValid, setVacationValid] = useState<VacationValidations>(
+    VACATION_DEFAULT_VALIDATIONS
+  );
 
-const useValidate = ({ canvasRef }: ValidateParams) => {
-  const [isValid, setIsValid] = useState<Validations>(DEFAULT_VALIDATIONS);
-  const { handleChangeInput, handleSignUrl, ...value } = useVacation();
+  const { track, name, birth, flag, duringFrom, duringTo } = useVacation();
+
   const [errorMessage, setErrorMessage] = useState<ErrorMessageObject>({
+    trackError: "",
     nameError: "",
     flagError: "",
     birthError: "",
-    duringError: "",
+    duringFromError: "",
+    duringToError: "",
   });
 
-  const validateRequired = (value: string, errorType: string) => {
-    if (value === "") {
+  const validateRequired = (objKey: string, objValue: string) => {
+    if (objValue && objValue !== "") {
       setErrorMessage((prev) => ({
         ...prev,
-        [errorType]: ERROR_MESSAGE.required,
+        [objKey + "Error"]: "",
       }));
+      if (objKey in userValid) {
+        setUserValid((prev) => ({ ...prev, [objKey]: true }));
+      } else {
+        setVacationValid((prev) => ({ ...prev, [objKey]: true }));
+      }
     } else {
       setErrorMessage((prev) => ({
         ...prev,
-        [errorType]: "",
+        [objKey + "Error"]: ERROR_MESSAGE.required,
       }));
+      if (objKey in userValid) {
+        setUserValid((prev) => ({ ...prev, [objKey]: false }));
+      } else {
+        setVacationValid((prev) => ({ ...prev, [objKey]: false }));
+      }
     }
   };
-
-  const validateDate = ({
-    from = value.duringFrom,
-    to = value.duringTo,
-  }: ValidateDateParams) => {
-    const [duringFrom, duringTo] = [new Date(from), new Date(to)];
+  const validateDate = (from: Date | string, to: Date | string) => {
+    const [duringFrom, duringTo] = [new Date(from ?? ""), new Date(to ?? "")];
     if (duringFrom.getTime() > duringTo.getTime()) {
       setErrorMessage((prev) => ({
         ...prev,
-        duringError: ERROR_MESSAGE.duringDate,
+        duringTo: ERROR_MESSAGE.duringDate,
+        duringFrom: ERROR_MESSAGE.duringDate,
+      }));
+      setVacationValid((prev) => ({
+        ...prev,
+        duringFrom: false,
+        duringTo: false,
       }));
     } else {
       setErrorMessage((prev) => ({
         ...prev,
-        duringError: "",
+        duringTo: "",
+        duringFrom: "",
+      }));
+      setVacationValid((prev) => ({
+        ...prev,
+        duringFrom: true,
+        duringTo: true,
       }));
     }
   };
 
-  const handleValidations = (valids: Partial<Validations>) => {
-    setIsValid((prev) => ({ ...prev, ...valids }));
-  };
+  const validate = useCallback(() => {
+    Object.entries({ track, name, birth, flag, duringFrom, duringTo }).forEach(
+      ([objKey, objValue]) => {
+        const errorName = `${objKey}Error`;
 
-  const isCanvasValid = (currentCanvas?: HTMLCanvasElement) => {
+        switch (objKey) {
+          case "track":
+            if (objValue === "------ 트랙 선택 ------") {
+              setErrorMessage((prev) => ({
+                ...prev,
+                [errorName]: ERROR_MESSAGE.required,
+              }));
+              setUserValid((prev) => ({ ...prev, track: false }));
+            } else {
+              setErrorMessage((prev) => ({
+                ...prev,
+                [errorName]: "",
+              }));
+              setUserValid((prev) => ({ ...prev, track: true }));
+            }
+            break;
+          case "birth":
+            const validatee = new Date(objValue);
+            const today = new Date(Date.now());
+
+            const { minBirthText } = calculateMinBirth();
+            const standard = new Date(minBirthText);
+            if (validatee >= standard) {
+              setErrorMessage((prev) => ({
+                ...prev,
+                [errorName]: ERROR_MESSAGE.minDate,
+              }));
+              setUserValid((prev) => ({ ...prev, birth: false }));
+            } else if (dateFormatting(validatee) === dateFormatting(today)) {
+              setErrorMessage((prev) => ({
+                ...prev,
+                [errorName]: ERROR_MESSAGE.required,
+              }));
+              setUserValid((prev) => ({ ...prev, birth: false }));
+            } else {
+              setErrorMessage((prev) => ({
+                ...prev,
+                [errorName]: "",
+              }));
+              setUserValid((prev) => ({ ...prev, birth: true }));
+            }
+            break;
+          case "duringFrom":
+            validateDate(duringFrom, duringTo);
+            break;
+          case "duringTo":
+            validateDate(duringFrom, duringTo);
+            break;
+          default:
+            break;
+        }
+        validateRequired(objKey, objValue.toString());
+      }
+    );
+  }, [track, name, birth, flag, duringFrom, duringTo]);
+  const canvasValidate = (currentCanvas?: HTMLCanvasElement) => {
     if (currentCanvas) {
       return (currentCanvas.getContext("2d") as CanvasRenderingContext2D)
         .getImageData(0, 0, currentCanvas.width, currentCanvas.height)
@@ -89,30 +177,12 @@ const useValidate = ({ canvasRef }: ValidateParams) => {
       return false;
     }
   };
-  useEffect(() => {
-    const validate = () => {
-      handleValidations({
-        userValid: [value.birth, value.flag, value.name].every((v) => !!v),
-        vacationValid: [value.duringFrom, value.duringTo].every((v) => !!v),
-      });
-    };
-    validate();
-  }, [
-    value.birth,
-    value.duringFrom,
-    value.duringTo,
-    value.flag,
-    value.name,
-    canvasRef,
-  ]);
 
-  return {
-    isValid,
-    errorMessage,
-    validateDate,
-    validateRequired,
-    isCanvasValid,
-  };
+  useEffect(() => {
+    validate();
+  }, [validate]);
+
+  return { userValid, vacationValid, errorMessage, validate, canvasValidate };
 };
 
 export default useValidate;

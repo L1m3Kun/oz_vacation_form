@@ -10,7 +10,10 @@ import FormSign from "./Form.Sign";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 import { useVacation } from "../../context/VacationContext";
-import useValidate from "./useValidate";
+import useValidate, {
+  UserValidations,
+  VacationValidations,
+} from "./useValidate";
 import { SignatureCanvasProps } from "../Canvas/SignatureCanvas";
 import { useModal } from "../../context/ModalContext";
 import CustomButton from "../../common/CustomButton";
@@ -21,8 +24,8 @@ interface CurrentPageProps extends SignatureCanvasProps {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   handleCreateVactionForm: () => void;
-  userValid: boolean;
-  vacationValid: boolean;
+  userValid: UserValidations;
+  vacationValid: VacationValidations;
 }
 
 const CurrentPage = ({
@@ -39,14 +42,13 @@ const CurrentPage = ({
   const handleNextAction = () => {
     setCurrentPage((prev) => (prev + 1 < 5 ? prev + 1 : prev));
   };
-
   switch (currentPage) {
     case 1:
       return (
         <FormUser
           prevAction={handlePrevAction}
           nextAction={handleNextAction}
-          isValid={userValid}
+          isValid={Object.values(userValid).every((e) => e)}
         />
       );
     case 2:
@@ -54,7 +56,7 @@ const CurrentPage = ({
         <FormVacation
           prevAction={handlePrevAction}
           nextAction={handleNextAction}
-          isValid={vacationValid}
+          isValid={Object.values(vacationValid).every((e) => e)}
         />
       );
     case 3:
@@ -69,13 +71,22 @@ const CurrentPage = ({
       return (
         <Suspense fallback={<LoadingSpinner />}>
           <VacationPreview />
-          <CustomButton
-            mode="custom"
-            className="absolute bottom-4 left-4  bg-dark p-3 rounded-md shadow-md outline-white outline-1 outline hover:bg-amber-600"
-            onClick={handlePrevAction}
-          >
-            뒤로가기
-          </CustomButton>
+          <div>
+            <CustomButton
+              mode="custom"
+              className="absolute bottom-4 left-4  bg-dark p-3 rounded-md shadow-md outline-white outline-1 outline hover:bg-gray-700"
+              onClick={handlePrevAction}
+            >
+              뒤로가기
+            </CustomButton>
+            <CustomButton
+              mode="link"
+              className="absolute bottom-4 left-28  bg-purple-600 p-3 rounded-md shadow-md hover:bg-purple-800"
+              href="https://ml2391tcuid.typeform.com/to/JTIdKwSG"
+            >
+              제출하기
+            </CustomButton>
+          </div>
         </Suspense>
       );
 
@@ -89,13 +100,14 @@ const CreatingFormController = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const { handleSignUrl, ...value } = useVacation();
   const { setItemToLocalStorage, removeFromLocalStorage } = localStorageUtils();
-  const { isCanvasValid, isValid } = useValidate({ canvasRef });
+  const { canvasValidate, userValid, vacationValid } = useValidate();
   const { openModal, closeModal } = useModal();
+
   const createVacationForm = () => {
     const canvasCurrent = canvasRef.current;
 
     if (canvasCurrent) {
-      if (isCanvasValid(canvasCurrent)) {
+      if (canvasValidate(canvasCurrent)) {
         const url = canvasCurrent.toDataURL();
         const { birth, duringFrom, duringTo, flag, name, track } = value;
         const localSavedValue = {
@@ -134,8 +146,8 @@ const CreatingFormController = () => {
         setCurrentPage={setCurrentPage}
         reff={canvasRef}
         handleCreateVactionForm={createVacationForm}
-        userValid={isValid.userValid}
-        vacationValid={isValid.vacationValid}
+        userValid={userValid}
+        vacationValid={vacationValid}
       />
     </main>
   );

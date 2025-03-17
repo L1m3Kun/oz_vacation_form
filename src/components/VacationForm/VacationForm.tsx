@@ -1,10 +1,11 @@
 import { Document, Image, Page, Text, View } from "@react-pdf/renderer";
 import { styles } from "./VacationStyle";
 
-interface VacationFormProps {
+interface VacationFormProp {
   name?: string;
   birth?: string;
   track?:
+    | "------ 트랙 선택 ------"
     | "초격차 웹 개발 캠프(프론트엔드)"
     | "초격차 웹 개발 캠프(백엔드)"
     | "관리형 웹 풀스택 부트캠프"
@@ -26,7 +27,7 @@ const VacationForm = ({
   reason = "개인 사정으로 인한 휴가",
   signUrl = "",
   writedAt = "",
-}: VacationFormProps) => {
+}: VacationFormProp) => {
   const tableValue = [
     { attribute: "성명", value: name },
     { attribute: "생년월일", value: birth },
