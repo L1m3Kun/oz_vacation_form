@@ -1,14 +1,18 @@
 import { ComponentType } from "react";
-import { LabelComponentWithInput } from "./withLabel";
+import { SelectProps } from "./CustomSelect";
+import { CustomInputProps } from "./CustomInput";
 
-export interface ErrorMessageComponent extends LabelComponentWithInput {
+export interface ErrorMessageComponentWithInput extends CustomInputProps {
+  errorMessage?: string;
+}
+export interface ErrorMessageComponentWithSelect extends SelectProps {
   errorMessage?: string;
 }
 
-const withErrorMessageInput = (
-  WrappedComponent: ComponentType<ErrorMessageComponent>
+export const withErrorMessageInput = (
+  WrappedComponent: ComponentType<ErrorMessageComponentWithInput>
 ) => {
-  return ({ errorMessage = "", ...rest }: ErrorMessageComponent) => {
+  return ({ errorMessage = "", ...rest }: ErrorMessageComponentWithInput) => {
     return (
       <div className="w-full">
         <WrappedComponent {...rest} />
@@ -20,4 +24,17 @@ const withErrorMessageInput = (
   };
 };
 
-export default withErrorMessageInput;
+export const withErrorMessageSelect = (
+  WrappedComponent: ComponentType<ErrorMessageComponentWithSelect>
+) => {
+  return ({ errorMessage = "", ...rest }: ErrorMessageComponentWithSelect) => {
+    return (
+      <div className="w-full">
+        <WrappedComponent {...rest} />
+        <p className="text-red-400 w-full max-w-sm min-h-6 mx-auto pt-1 pl-2 font-semibold text-sm">
+          {errorMessage}
+        </p>
+      </div>
+    );
+  };
+};
