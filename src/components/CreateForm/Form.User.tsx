@@ -35,6 +35,7 @@ const FormUser = ({
       });
     }
   };
+
   const INPUT_ELEMENTS: LabelComponentWithInput[] = [
     {
       htmlFor: "name",

@@ -62,7 +62,6 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
     e: ChangeEvent<T>
   ) => {
     const target = e.target as T;
-    console.log(value);
     if (target.id in value) {
       setValue((prev) => ({ ...prev, [target.id]: target.value }));
     }
