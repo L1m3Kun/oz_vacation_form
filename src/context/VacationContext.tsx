@@ -31,18 +31,20 @@ export interface InputValueType {
   handleSignUrl: (newSign: string) => void;
 }
 
-const INITIAL_VACATION: Omit<
+type INITIAL_VACATION_TYPE = Omit<
   InputValueType,
   "handleChangeInput" | "signUrl" | "handleSignUrl"
-> = {
+>;
+
+const INITIAL_VACATION: INITIAL_VACATION_TYPE = {
+  track: "------ 트랙 선택 ------",
   name: "",
-  birth: new Date(Date.now()),
+  birth: new Date(Date.now()).toString(),
   flag: "",
   duringFrom: "",
   duringTo: "",
-  writedAt: new Date(Date.now()),
   reason: "개인 사정으로 인한 휴가",
-  track: "------ 트랙 선택 ------",
+  writedAt: new Date(Date.now()).toString(),
 };
 
 const VacationContext = createContext<InputValueType>({
@@ -53,17 +55,14 @@ const VacationContext = createContext<InputValueType>({
 });
 
 export const VacationProvider = ({ children }: PropsWithChildren) => {
-  const [value, setValue] =
-    useState<
-      Omit<InputValueType, "handleChangeInput" | "signUrl" | "handleSignUrl">
-    >(INITIAL_VACATION);
+  const [value, setValue] = useState<INITIAL_VACATION_TYPE>(INITIAL_VACATION);
   const [signUrl, setSignUrl] = useState<string>("");
 
   const handleChangeInput = <T extends HTMLInputElement | HTMLSelectElement>(
     e: ChangeEvent<T>
   ) => {
     const target = e.target as T;
-    console.log(target);
+    console.log(value);
     if (target.id in value) {
       setValue((prev) => ({ ...prev, [target.id]: target.value }));
     }
@@ -75,12 +74,12 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const getLocalStorage = () => {
       const { getItemFromLocalStorage } = localStorageUtils();
-      const vacationData = getItemFromLocalStorage<
-        Omit<InputValueType, "handleChangeInput" | "handleSignUrl">
-      >(LOCALSTORAGE_KEY.vacationData);
+      const vacationData = getItemFromLocalStorage<INITIAL_VACATION_TYPE>(
+        LOCALSTORAGE_KEY.vacationData
+      );
       if (vacationData) {
-        const { signUrl, ...inputs } = vacationData;
-        setValue(inputs);
+        const { ...inputs } = vacationData;
+        setValue((prev) => ({ ...prev, ...inputs, writedAt: inputs.writedAt }));
       }
     };
     getLocalStorage();
