@@ -55,11 +55,11 @@ const VacationPreview = () => {
       case "초격차 웹 개발 캠프(백엔드)":
         return "BE";
       case "관리형 웹 풀스택 부트캠프":
-        return "FS";
+        return "FSO";
       case "CEO 개발부트캠프":
         return "CEO";
       case "디자인 부트캠프":
-        return "DS";
+        return "PD";
       default:
         return "";
     }
