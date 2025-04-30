@@ -8,6 +8,8 @@ import {
 } from "react";
 import localStorageUtils from "../util/localStorageUtils";
 import LOCALSTORAGE_KEY from "../util/localStorageKey";
+import { useModal } from "./ModalContext";
+import TrackWaringModalContent from "../components/Modal/TrackWaringModalContent";
 
 export interface InputValueType {
   name: string;
@@ -57,6 +59,7 @@ const VacationContext = createContext<InputValueType>({
 export const VacationProvider = ({ children }: PropsWithChildren) => {
   const [value, setValue] = useState<INITIAL_VACATION_TYPE>(INITIAL_VACATION);
   const [signUrl, setSignUrl] = useState<string>("");
+  const { openModal } = useModal();
 
   const handleChangeInput = <T extends HTMLInputElement | HTMLSelectElement>(
     e: ChangeEvent<T>
@@ -64,6 +67,20 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
     const target = e.target as T;
     if (target.id in value) {
       setValue((prev) => ({ ...prev, [target.id]: target.value }));
+      console.log(target.id, target.value);
+      if (
+        target.id === "track" &&
+        target.value === "초격차 웹 개발 캠프(프론트엔드)"
+      ) {
+        openModal({
+          modalKey: "fe-flag-warn",
+          type: "alert",
+          title: "🌿 안내 사항",
+          titleClassName:
+            "ml-2 text-xl font-bold border-b pb-1 border-gray-300 pb-3",
+          content: <TrackWaringModalContent />,
+        });
+      }
     }
   };
   const handleSignUrl = (newSignUrl: string) => {

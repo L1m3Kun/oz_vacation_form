@@ -7,6 +7,7 @@ export interface ModalProps {
   type: "alert" | "confirm";
   modalKey: string;
   title?: string;
+  titleClassName?: string;
   content?: React.ReactNode;
   onConfirm?: () => void;
   onCancel?: () => void;
@@ -21,13 +22,21 @@ const AlertModal = ({
   confirmMessage,
   onConfirm,
   modalRef,
+  titleClassName,
 }: Omit<ModalProps, "type" | "onCancel" | "cancelMessage" | "modalKey">) => {
   return (
     <article
       ref={modalRef}
-      className="w-80 h-48 rounded-md shadow-sm bg-white flex flex-col justify-center items-center"
+      className={
+        "p-5 rounded-md shadow-sm bg-white flex flex-col justify-center items-center"
+      }
     >
-      <h1 className="font-semibold text-lg text-dark border-b-2 border-solid w-3/4 text-center border-dark-900">
+      <h1
+        className={
+          titleClassName ??
+          "font-semibold text-lg text-dark border-b-2 border-solid w-3/4 text-center border-dark-900"
+        }
+      >
         {title}
       </h1>
       <p className="text-dark py-10 px-8">{content}</p>
