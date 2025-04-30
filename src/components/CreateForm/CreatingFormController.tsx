@@ -36,6 +36,7 @@ const CurrentPage = ({
   vacationValid,
   handleCreateVactionForm,
 }: CurrentPageProps) => {
+  const { track } = useVacation();
   const handlePrevAction = () => {
     setCurrentPage((prev) => (prev - 1 >= 0 ? prev - 1 : prev));
   };
@@ -82,7 +83,15 @@ const CurrentPage = ({
             <CustomButton
               mode="link"
               className="absolute bottom-4 left-28  bg-purple-600 p-3 rounded-md shadow-md hover:bg-purple-800"
-              href="https://ml2391tcuid.typeform.com/to/JTIdKwSG"
+              href={
+                [
+                  "관리형 웹 풀스택 부트캠프",
+                  "CEO 개발부트캠프",
+                  "디자인 부트캠프",
+                ].includes(track)
+                  ? "https://ml2391tcuid.typeform.com/to/dfuDtbtN"
+                  : "https://ml2391tcuid.typeform.com/to/JTIdKwSG"
+              }
             >
               제출하기
             </CustomButton>
