@@ -12,11 +12,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <VacationProvider>
-        <ModalProvider>
+      <ModalProvider>
+        <VacationProvider>
           <App />
-        </ModalProvider>
-      </VacationProvider>
+        </VacationProvider>
+      </ModalProvider>
     </BrowserRouter>
   </StrictMode>
 );
