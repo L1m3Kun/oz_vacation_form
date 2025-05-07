@@ -67,7 +67,6 @@ export const VacationProvider = ({ children }: PropsWithChildren) => {
     const target = e.target as T;
     if (target.id in value) {
       setValue((prev) => ({ ...prev, [target.id]: target.value }));
-      console.log(target.id, target.value);
       if (
         target.id === "track" &&
         target.value === "초격차 웹 개발 캠프(프론트엔드)"
