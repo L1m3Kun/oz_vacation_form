@@ -2,9 +2,10 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { VacationProvider } from "./context/VacationContext";
+import { ModalProvider } from "./context/ModalContext";
+import { Analytics } from "@vercel/analytics/react";
 import App from "./App";
 import "./index.css";
-import { ModalProvider } from "./context/ModalContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,6 +18,7 @@ root.render(
           <App />
         </VacationProvider>
       </ModalProvider>
+      <Analytics />
     </BrowserRouter>
   </StrictMode>
 );
