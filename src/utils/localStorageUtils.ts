@@ -1,6 +1,6 @@
 import { LocalStorageKeyType } from "./localStorageKey";
 
-const localStorageUtils = () => {
+export const localStorageUtils = () => {
   const getItemFromLocalStorage = <T>(itemKey: LocalStorageKeyType) => {
     const strItem = localStorage.getItem(itemKey);
     if (strItem) {
@@ -23,5 +23,3 @@ const localStorageUtils = () => {
     removeFromLocalStorage,
   };
 };
-
-export default localStorageUtils;

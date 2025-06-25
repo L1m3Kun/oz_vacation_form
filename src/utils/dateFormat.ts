@@ -1,4 +1,4 @@
-const dateFormatting = (dateString?: Date | string) => {
+export const dateFormatting = (dateString?: Date | string) => {
   if (dateString) {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return "";
@@ -7,5 +7,3 @@ const dateFormatting = (dateString?: Date | string) => {
     return "";
   }
 };
-
-export default dateFormatting;
