@@ -1,5 +1,6 @@
+import { CustomButton } from "../../common";
+
 import LogoImage from "../../assets/images/오즈_라이트.png";
-import CustomButton from "../../common/CustomButton";
 import GithubIcon from "../../assets/icons/ic_github.svg";
 
 interface LandingProps {

@@ -1,8 +1,5 @@
 import { lazy, Suspense, useRef, useState } from "react";
 
-import localStorageUtils from "../../util/localStorageUtils";
-import LOCALSTORAGE_KEY from "../../util/localStorageKey";
-
 import Landing from "./Landing";
 import FormUser from "./Form.User";
 import FormVacation from "./Form.Vacation";
@@ -16,9 +13,10 @@ import useValidate, {
 } from "./useValidate";
 import { SignatureCanvasProps } from "../Canvas/SignatureCanvas";
 import { useModal } from "../../context/ModalContext";
-import CustomButton from "../../common/CustomButton";
+import { LOCALSTORAGE_KEY, localStorageUtils } from "../../utils";
+import { CustomButton } from "../../common";
 
-const VacationPreview = lazy(() => import("../VacationForm/VacationPreview"));
+const VacationPreview = lazy(() => import("../Vacation/Vacation.Preview"));
 
 interface CurrentPageProps extends SignatureCanvasProps {
   currentPage: number;
@@ -84,11 +82,7 @@ const CurrentPage = ({
               mode="link"
               className="absolute bottom-4 left-28  bg-purple-600 p-3 rounded-md shadow-md hover:bg-purple-800"
               href={
-                [
-                  "관리형 웹 풀스택 부트캠프",
-                  "CEO 개발부트캠프",
-                  "디자인 부트캠프",
-                ].includes(track)
+                ["1인 창업가 개발부트캠프"].includes(track)
                   ? "https://ml2391tcuid.typeform.com/to/dfuDtbtN"
                   : "https://ml2391tcuid.typeform.com/to/JTIdKwSG"
               }

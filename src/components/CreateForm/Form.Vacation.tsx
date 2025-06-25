@@ -1,15 +1,14 @@
-import Description from "../../common/Description";
-import Title from "../../common/Title";
-import PageButtons, { PageButtonsProps } from "../../common/PageButtons";
-import { LabelComponentWithInput } from "../../common/withLabel";
-
-import { useVacation } from "../../context/VacationContext";
-import dateFormatting from "../../util/dateFormat";
-import CustomInput from "../../common/CustomInput";
 import useValidate from "./useValidate";
-import { useModal } from "../../context/ModalContext";
-import changeTwoDay from "../../util/chageTwoDay";
-import getDateDiff from "../../util/getDateDiff";
+import {
+  CustomInput,
+  Description,
+  PageButtons,
+  PageButtonsProps,
+  Title,
+} from "../../common";
+import { useModal, useVacation } from "../../context";
+import { changeTwoDay, dateFormatting, getDateDiff } from "../../utils";
+import { INPUT_CONFIGS, VACATION_DATE_COFIGS } from "../../assets/configs";
 
 const FormVacation = ({
   prevAction,
@@ -39,54 +38,21 @@ const FormVacation = ({
     }
   };
 
-  const VACATION_DATE_ELEMENTS: LabelComponentWithInput[] = [
-    {
-      htmlFor: "duringFrom",
-      isRequire: true,
-      labelText: "휴가 시작일",
-      type: "date",
-      value: dateFormatting(duringFrom),
-      max: "9999-12-31",
-      onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        handleChangeInput<HTMLInputElement>(e);
-      },
-      errorMessage: errorMessage.duringFromError,
+  const VACATION_DATE_ELEMENTS = VACATION_DATE_COFIGS.map((config) => ({
+    ...config,
+    value: { duringFrom, duringTo }[config.htmlFor].toString(),
+    onChange(e: React.ChangeEvent<HTMLInputElement>) {
+      handleChangeInput<HTMLInputElement>(e);
     },
-    {
-      htmlFor: "duringTo",
-      isRequire: true,
-      labelText: "휴가 종료일",
-      type: "date",
-      value: dateFormatting(duringTo),
-      max: "9999-12-31",
-      onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        handleChangeInput<HTMLInputElement>(e);
-      },
-      errorMessage: errorMessage.duringToError,
+    errorMessage: errorMessage[config.htmlFor],
+  }));
+  const INPUT_ELEMENTS = INPUT_CONFIGS.map((config) => ({
+    ...config,
+    value: config.htmlFor === "writedAt" ? dateFormatting(writedAt) : reason,
+    onChange(e: React.ChangeEvent<HTMLInputElement>) {
+      handleChangeInput<HTMLInputElement>(e);
     },
-  ];
-  const INPUT_ELEMENTS: LabelComponentWithInput[] = [
-    {
-      htmlFor: "writedAt",
-      labelText: "작성일(기본: 당일)",
-      type: "date",
-      value: dateFormatting(writedAt),
-      max: "9999-12-31",
-      onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        handleChangeInput<HTMLInputElement>(e);
-      },
-    },
-    {
-      htmlFor: "reason",
-      labelText: "휴가 사유(선택)",
-      type: "text",
-      placeholder: "개인 사정으로 인한 휴가",
-      value: reason,
-      onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        handleChangeInput<HTMLInputElement>(e);
-      },
-    },
-  ];
+  }));
 
   return (
     <section className="h-screen w-full mx-auto flex flex-col justify-center items-center gap-2 px-2">

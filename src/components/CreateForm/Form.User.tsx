@@ -1,14 +1,15 @@
-import CustomSelect from "../../common/CustomSelect";
-import CustomInput from "../../common/CustomInput";
-import Title from "../../common/Title";
-import Description from "../../common/Description";
-import PageButtons, { PageButtonsProps } from "../../common/PageButtons";
-import { LabelComponentWithInput } from "../../common/withLabel";
-
 import useValidate from "./useValidate";
-import dateFormatting from "../../util/dateFormat";
-import { useVacation } from "../../context/VacationContext";
-import { useModal } from "../../context/ModalContext";
+import { useModal, useVacation } from "../../context";
+import {
+  CustomInput,
+  CustomSelect,
+  Description,
+  PageButtons,
+  PageButtonsProps,
+  Title,
+} from "../../common";
+import { dateFormatting } from "../../utils";
+import { USER_FORM_CONFIGS, UserFormConfigType } from "../../assets/configs";
 
 const FormUser = ({
   prevAction,
@@ -36,46 +37,19 @@ const FormUser = ({
     }
   };
 
-  const INPUT_ELEMENTS: LabelComponentWithInput[] = [
-    {
-      htmlFor: "name",
-      isRequire: true,
-      labelText: "이름",
-      type: "text",
-      placeholder: "이름을 입력해주세요.",
-      value: value.name,
+  const INPUT_ELEMENTS: UserFormConfigType[] = USER_FORM_CONFIGS.map(
+    (config) => ({
+      ...config,
+      value:
+        config.htmlFor === "birth"
+          ? dateFormatting(value.birth)
+          : value[config.htmlFor].toString(),
       onChange(e: React.ChangeEvent<HTMLInputElement>) {
         handleChangeInput<HTMLInputElement>(e);
       },
-      errorMessage: errorMessage.nameError,
-    },
-    {
-      htmlFor: "birth",
-      isRequire: true,
-      labelText: "생년월일",
-      type: "date",
-      max: dateFormatting(new Date(Date.now()).toString()),
-      value: dateFormatting(value.birth),
-      onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        handleChangeInput<HTMLInputElement>(e);
-      },
-      errorMessage: errorMessage.birthError,
-    },
-    {
-      htmlFor: "flag",
-      isRequire: true,
-      labelText: "차수(기수)",
-      type: "number",
-      value: value.flag,
-      onWheel: (event) => (event.target as HTMLInputElement).blur(),
-      min: 1,
-      placeholder: "예시) 7기(7차수) -> 7",
-      onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        handleChangeInput<HTMLInputElement>(e);
-      },
-      errorMessage: errorMessage.flagError,
-    },
-  ];
+      errorMessage: errorMessage[config.htmlFor],
+    })
+  );
   return (
     <section className="h-screen w-full max-w-sm mx-auto flex flex-col justify-center items-center gap-2 px-2">
       <Title>수강생 정보 입력</Title>
@@ -83,7 +57,7 @@ const FormUser = ({
       <CustomSelect
         htmlFor="track"
         labelText="캠프명"
-        errorMessage={errorMessage.trackError}
+        errorMessage={errorMessage.track}
         isRequire={true}
       />
       {INPUT_ELEMENTS.map((el) => (

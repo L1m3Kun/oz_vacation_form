@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
-import { useVacation } from "../../context/VacationContext";
-import { calculateMinBirth } from "../../util/calculateMinBirth";
-import dateFormatting from "../../util/dateFormat";
 
-interface ErrorMessageObject {
-  trackError: string;
-  nameError: string;
-  flagError: string;
-  birthError: string;
-  duringToError: string;
-  duringFromError: string;
+import { calculateMinBirth } from "../../utils/calculateMinBirth";
+import { dateFormatting } from "../../utils";
+import { useVacation } from "../../context";
+
+export interface ErrorMessageObject {
+  track: string;
+  name: string;
+  flag: string;
+  birth: string;
+  duringTo: string;
+  duringFrom: string;
 }
 
 export interface UserValidations {
@@ -50,15 +51,15 @@ const useValidate = () => {
   const { track, name, birth, flag, duringFrom, duringTo } = useVacation();
 
   const [errorMessage, setErrorMessage] = useState<ErrorMessageObject>({
-    trackError: "",
-    nameError: "",
-    flagError: "",
-    birthError: "",
-    duringFromError: "",
-    duringToError: "",
+    track: "",
+    name: "",
+    flag: "",
+    birth: "",
+    duringFrom: "",
+    duringTo: "",
   });
 
-  const validateRequired = (objKey: string, objValue: string) => {
+  const validateRequired = useCallback((objKey: string, objValue: string) => {
     if (objValue && objValue !== "") {
       setErrorMessage((prev) => ({
         ...prev,
@@ -80,7 +81,8 @@ const useValidate = () => {
         setVacationValid((prev) => ({ ...prev, [objKey]: false }));
       }
     }
-  };
+  }, []);
+
   const validateDate = (from: Date | string, to: Date | string) => {
     const [duringFrom, duringTo] = [new Date(from ?? ""), new Date(to ?? "")];
     if (duringFrom.getTime() > duringTo.getTime()) {
@@ -166,7 +168,7 @@ const useValidate = () => {
         }
       }
     );
-  }, [track, name, birth, flag, duringFrom, duringTo]);
+  }, [track, name, birth, flag, duringFrom, duringTo, validateRequired]);
   const canvasValidate = (currentCanvas?: HTMLCanvasElement) => {
     if (currentCanvas) {
       return (currentCanvas.getContext("2d") as CanvasRenderingContext2D)
