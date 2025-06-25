@@ -1,4 +1,4 @@
-import CustomButton from "./CustomButton";
+import { CustomButton } from "./CustomButton";
 
 export interface PageButtonsProps {
   mode: "prevOnly" | "nextOnly" | "both";
@@ -7,7 +7,7 @@ export interface PageButtonsProps {
   nextAction?: () => void;
 }
 
-const PageButtons = ({
+export const PageButtons = ({
   mode,
   prevAction,
   nextAction,
@@ -43,5 +43,3 @@ const PageButtons = ({
       );
   }
 };
-
-export default PageButtons;

@@ -10,12 +10,10 @@ const TRACKS = [
   },
   {
     id: "FE",
-    value: "초격차 웹 개발 캠프(프론트엔드)",
+    value: "초격차 캠프 프론트엔드 코스",
   },
-  { id: "BE", value: "초격차 웹 개발 캠프(백엔드)" },
-  { id: "FS", value: "관리형 웹 풀스택 부트캠프" },
-  { id: "CEO", value: "CEO 개발부트캠프" },
-  { id: "DS", value: "디자인 부트캠프" },
+  { id: "BE", value: "초격차 캠프 백엔드 코스" },
+  { id: "IH", value: "1인 창업가 개발부트캠프" },
 ];
 
 export interface SelectProps extends ComponentPropsWithoutRef<"select"> {
@@ -42,6 +40,4 @@ export const Select = ({ htmlFor, ...rest }: SelectProps) => {
   );
 };
 
-const CustomSelect = withLabelSelect(withErrorMessageSelect(Select));
-
-export default CustomSelect;
+export const CustomSelect = withLabelSelect(withErrorMessageSelect(Select));

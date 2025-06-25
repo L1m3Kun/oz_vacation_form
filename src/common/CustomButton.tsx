@@ -13,7 +13,7 @@ const OUTLINE_CLASS_NAME =
 
 const LINK_CLASS_NAME = "";
 
-const CustomButton = ({
+export const CustomButton = ({
   mode,
   children,
   className,
@@ -52,5 +52,3 @@ const CustomButton = ({
       );
   }
 };
-
-export default CustomButton;

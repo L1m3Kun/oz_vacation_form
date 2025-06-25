@@ -16,6 +16,4 @@ const CInput = ({ htmlFor, ...rest }: CustomInputProps) => {
   );
 };
 
-const CustomInput = withLabelInput(withErrorMessageInput(CInput));
-
-export default CustomInput;
+export const CustomInput = withLabelInput(withErrorMessageInput(CInput));

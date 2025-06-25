@@ -10,6 +10,4 @@ const TextArea = ({ htmlFor, ...rest }: CustomTextAreaProps) => {
   return <textarea id={htmlFor} {...rest}></textarea>;
 };
 
-const CustomTextArea = withLabelTextArea(TextArea);
-
-export default CustomTextArea;
+export const CustomTextArea = withLabelTextArea(TextArea);
