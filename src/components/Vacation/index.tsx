@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-import { CustomButton } from "../../common";
+import { CustomButton } from "../_common";
 const VacationPreview = lazy(() => import("../Vacation/Vacation.Preview"));
 
 interface VacationPDFPreviewProps {

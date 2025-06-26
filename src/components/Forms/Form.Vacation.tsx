@@ -4,7 +4,7 @@ import {
   PageButtons,
   PageButtonsProps,
   Title,
-} from "../../common";
+} from "../_common";
 import { useModal, useVacation } from "../../context";
 import { changeTwoDay, dateFormatting, getDateDiff } from "../../utils";
 import { INPUT_CONFIGS, VACATION_DATE_COFIGS } from "../../assets/configs";

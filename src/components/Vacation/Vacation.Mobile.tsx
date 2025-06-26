@@ -1,7 +1,7 @@
 import { usePDF } from "@react-pdf/renderer";
 
 import { useCallback, useEffect } from "react";
-import { CustomButton } from "../../common";
+import { CustomButton } from "../_common";
 
 interface VacationMobileProps {
   documentS: React.ReactElement;

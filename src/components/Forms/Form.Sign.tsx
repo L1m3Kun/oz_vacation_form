@@ -1,9 +1,4 @@
-import {
-  Description,
-  PageButtons,
-  PageButtonsProps,
-  Title,
-} from "../../common";
+import { Description, PageButtons, PageButtonsProps, Title } from "../_common";
 import SignatureCanvas, {
   SignatureCanvasProps,
 } from "../Canvas/SignatureCanvas";

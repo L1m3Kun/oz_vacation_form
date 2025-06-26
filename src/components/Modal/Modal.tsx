@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 
-import { useModal } from "../../context/ModalContext";
-import { CustomButton, withModalContainer } from "../../common";
+import { useModal } from "../../context";
+import { CustomButton } from "../_common";
+import { withModalContainer } from "../../HOCs";
 
 export interface ModalProps {
   type: "alert" | "confirm";

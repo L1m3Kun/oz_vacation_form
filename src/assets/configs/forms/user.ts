@@ -1,6 +1,8 @@
-import { LabelComponentWithInput } from "../../../common";
-import { ErrorMessageObject } from "../../../hooks/form/useValidate";
+import { WheelEvent } from "react";
+
+import { ErrorMessageObject } from "../../../hooks";
 import { dateFormatting } from "../../../utils";
+import { LabelComponentWithInput } from "../../../HOCs";
 
 export interface UserFormConfigType
   extends Omit<LabelComponentWithInput, "htmlFor"> {
@@ -27,7 +29,8 @@ export const USER_FORM_CONFIGS: UserFormConfigType[] = [
     isRequire: true,
     labelText: "차수(기수)",
     type: "number",
-    onWheel: (event) => (event.target as HTMLInputElement).blur(),
+    onWheel: (event: WheelEvent<HTMLInputElement>) =>
+      (event.target as HTMLInputElement).blur(),
     min: 1,
     placeholder: "예시) 7기 -> 7",
   },

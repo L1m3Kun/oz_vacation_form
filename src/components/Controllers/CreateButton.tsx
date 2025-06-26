@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
-import { CustomButton } from "../../common";
+import { CustomButton } from "../_common";
 
 interface CreateButtonProps extends ComponentPropsWithoutRef<"button"> {}
 

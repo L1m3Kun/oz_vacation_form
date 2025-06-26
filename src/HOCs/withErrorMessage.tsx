@@ -1,6 +1,6 @@
 import { ComponentType } from "react";
-import { SelectProps } from "./CustomSelect";
-import { CustomInputProps } from "./CustomInput";
+import { SelectProps } from "../components/_common/CustomSelect";
+import { CustomInputProps } from "../components/_common/CustomInput";
 
 export interface ErrorMessageComponentWithInput extends CustomInputProps {
   errorMessage?: string;

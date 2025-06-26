@@ -1,4 +1,4 @@
-import { LabelComponentWithInput } from "../../../common";
+import { LabelComponentWithInput } from "../../../HOCs";
 
 export interface VacationConfigType
   extends Omit<LabelComponentWithInput, "htmlFor"> {

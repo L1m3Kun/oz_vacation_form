@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef } from "react";
-import { useVacation } from "../context/VacationContext";
-import { withLabelSelect } from "./withLabel";
-import { withErrorMessageSelect } from "./withErrorMessage";
+
+import { useVacation } from "../../context";
+import { withErrorMessageSelect, withLabelSelect } from "../../HOCs";
 
 const TRACKS = [
   {

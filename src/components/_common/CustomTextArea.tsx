@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
-import { withLabelTextArea } from "./withLabel";
+import { withLabelTextArea } from "../../HOCs";
 
 export interface CustomTextAreaProps
   extends ComponentPropsWithoutRef<"textarea"> {

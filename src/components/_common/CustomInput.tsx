@@ -1,6 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
-import { withLabelInput } from "./withLabel";
-import { withErrorMessageInput } from "./withErrorMessage";
+import { withErrorMessageInput, withLabelInput } from "../../HOCs";
 
 export interface CustomInputProps extends ComponentPropsWithoutRef<"input"> {
   htmlFor: string;

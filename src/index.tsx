@@ -1,11 +1,10 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { VacationProvider } from "./context/VacationContext";
-import { ModalProvider } from "./context/ModalContext";
 import { Analytics } from "@vercel/analytics/react";
 import App from "./App";
 import "./index.css";
+import { ModalProvider, VacationProvider } from "./context";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

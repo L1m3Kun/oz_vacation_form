@@ -1,5 +1,5 @@
 import { ComponentType } from "react";
-import { CustomTextAreaProps } from "./CustomTextArea";
+import { CustomTextAreaProps } from "../components/_common/CustomTextArea";
 import {
   ErrorMessageComponentWithInput,
   ErrorMessageComponentWithSelect,

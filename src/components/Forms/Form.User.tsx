@@ -1,4 +1,8 @@
 import { useModal, useVacation } from "../../context";
+
+import { dateFormatting } from "../../utils";
+import { USER_FORM_CONFIGS, UserFormConfigType } from "../../assets/configs";
+import { useValidate } from "../../hooks";
 import {
   CustomInput,
   CustomSelect,
@@ -6,10 +10,7 @@ import {
   PageButtons,
   PageButtonsProps,
   Title,
-} from "../../common";
-import { dateFormatting } from "../../utils";
-import { USER_FORM_CONFIGS, UserFormConfigType } from "../../assets/configs";
-import { useValidate } from "../../hooks";
+} from "../_common";
 
 export const FormUser = ({
   prevAction,
