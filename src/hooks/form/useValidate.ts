@@ -40,7 +40,7 @@ const VACATION_DEFAULT_VALIDATIONS: VacationValidations = {
   duringTo: false,
 };
 
-const useValidate = () => {
+export const useValidate = () => {
   const [userValid, setUserValid] = useState<UserValidations>(
     USER_DEFAULT_VALIDATIONS
   );
@@ -185,5 +185,3 @@ const useValidate = () => {
 
   return { userValid, vacationValid, errorMessage, validate, canvasValidate };
 };
-
-export default useValidate;

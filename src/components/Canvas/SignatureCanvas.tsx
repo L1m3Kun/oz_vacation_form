@@ -1,6 +1,5 @@
-import useDraw from "./useDraw";
 import { RefObject } from "react";
-import useResize from "./useResize";
+import { useDraw, useResize } from "../../hooks";
 
 export interface SignatureCanvasProps {
   reff: RefObject<HTMLCanvasElement>;

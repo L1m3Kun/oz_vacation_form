@@ -1,4 +1,3 @@
-import useValidate from "./useValidate";
 import { useModal, useVacation } from "../../context";
 import {
   CustomInput,
@@ -10,8 +9,9 @@ import {
 } from "../../common";
 import { dateFormatting } from "../../utils";
 import { USER_FORM_CONFIGS, UserFormConfigType } from "../../assets/configs";
+import { useValidate } from "../../hooks";
 
-const FormUser = ({
+export const FormUser = ({
   prevAction,
   nextAction,
   isValid,
@@ -72,5 +72,3 @@ const FormUser = ({
     </section>
   );
 };
-
-export default FormUser;

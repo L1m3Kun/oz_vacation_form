@@ -1,22 +1,21 @@
-import { lazy, Suspense, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import Landing from "./Landing";
-import FormUser from "./Form.User";
-import FormVacation from "./Form.Vacation";
-import FormSign from "./Form.Sign";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-import { useVacation } from "../../context/VacationContext";
-import useValidate, {
+import { useVacation } from "../context/VacationContext";
+import {
   UserValidations,
+  useValidate,
   VacationValidations,
-} from "./useValidate";
-import { SignatureCanvasProps } from "../Canvas/SignatureCanvas";
-import { useModal } from "../../context/ModalContext";
-import { LOCALSTORAGE_KEY, localStorageUtils } from "../../utils";
-import { CustomButton } from "../../common";
-
-const VacationPreview = lazy(() => import("../Vacation/Vacation.Preview"));
+} from "../hooks/form/useValidate";
+import { SignatureCanvasProps } from "../components/Canvas/SignatureCanvas";
+import { useModal } from "../context/ModalContext";
+import { LOCALSTORAGE_KEY, localStorageUtils } from "../utils";
+import { VacationPDFPreview } from "../components/Vacation";
+import { SUBMIT_LINKS } from "../assets/configs/submitLinks";
+import { FormUser } from "../components/Forms/Form.User";
+import { FormVacation } from "../components/Forms/Form.Vacation";
+import { FormSign } from "../components/Forms/Form.Sign";
 
 interface CurrentPageProps extends SignatureCanvasProps {
   currentPage: number;
@@ -68,29 +67,10 @@ const CurrentPage = ({
       );
     case 4:
       return (
-        <Suspense fallback={<LoadingSpinner />}>
-          <VacationPreview />
-          <div>
-            <CustomButton
-              mode="custom"
-              className="absolute bottom-4 left-4  bg-dark p-3 rounded-md shadow-md outline-white outline-1 outline hover:bg-gray-700"
-              onClick={handlePrevAction}
-            >
-              뒤로가기
-            </CustomButton>
-            <CustomButton
-              mode="link"
-              className="absolute bottom-4 left-28  bg-purple-600 p-3 rounded-md shadow-md hover:bg-purple-800"
-              href={
-                ["1인 창업가 개발부트캠프"].includes(track)
-                  ? "https://ml2391tcuid.typeform.com/to/dfuDtbtN"
-                  : "https://ml2391tcuid.typeform.com/to/JTIdKwSG"
-              }
-            >
-              제출하기
-            </CustomButton>
-          </div>
-        </Suspense>
+        <VacationPDFPreview
+          handlePrevAction={handlePrevAction}
+          href={SUBMIT_LINKS[track]}
+        />
       );
 
     default:

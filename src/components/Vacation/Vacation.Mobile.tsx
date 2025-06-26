@@ -8,7 +8,10 @@ interface VacationMobileProps {
   downloadName: string;
 }
 
-const VacationMobile = ({ documentS, downloadName }: VacationMobileProps) => {
+export const VacationMobile = ({
+  documentS,
+  downloadName,
+}: VacationMobileProps) => {
   const [documentInstance] = usePDF({ document: documentS });
 
   const makeUrlFromPDF = useCallback(() => {
@@ -40,5 +43,3 @@ const VacationMobile = ({ documentS, downloadName }: VacationMobileProps) => {
     </div>
   );
 };
-
-export default VacationMobile;

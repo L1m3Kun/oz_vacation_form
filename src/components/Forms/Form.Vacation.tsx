@@ -1,4 +1,3 @@
-import useValidate from "./useValidate";
 import {
   CustomInput,
   Description,
@@ -9,8 +8,9 @@ import {
 import { useModal, useVacation } from "../../context";
 import { changeTwoDay, dateFormatting, getDateDiff } from "../../utils";
 import { INPUT_CONFIGS, VACATION_DATE_COFIGS } from "../../assets/configs";
+import { useValidate } from "../../hooks";
 
-const FormVacation = ({
+export const FormVacation = ({
   prevAction,
   nextAction,
   isValid,
@@ -88,5 +88,3 @@ const FormVacation = ({
     </section>
   );
 };
-
-export default FormVacation;

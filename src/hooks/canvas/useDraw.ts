@@ -5,7 +5,7 @@ interface DrawParams {
   canvasRef: RefObject<HTMLCanvasElement>;
 }
 
-const useDraw = ({ canvasRef }: DrawParams) => {
+export const useDraw = ({ canvasRef }: DrawParams) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const { handleSignUrl } = useVacation();
   const startDrawing = (
@@ -96,5 +96,3 @@ const useDraw = ({ canvasRef }: DrawParams) => {
 
   return { canvasRef, startDrawing, draw, stopDrawing, clearCanvas };
 };
-
-export default useDraw;

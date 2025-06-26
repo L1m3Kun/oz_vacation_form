@@ -7,7 +7,7 @@ import {
 import SignatureCanvas, {
   SignatureCanvasProps,
 } from "../Canvas/SignatureCanvas";
-import CreateButton from "./CreateButton";
+import CreateButton from "../Controllers/CreateButton";
 
 interface FormSignProps
   extends SignatureCanvasProps,
@@ -15,7 +15,7 @@ interface FormSignProps
   handleCreateVactionForm: () => void;
 }
 
-const FormSign = ({
+export const FormSign = ({
   reff,
   handleCreateVactionForm,
   prevAction,
@@ -32,5 +32,3 @@ const FormSign = ({
     </section>
   );
 };
-
-export default FormSign;

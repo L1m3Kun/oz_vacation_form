@@ -1,7 +1,7 @@
-import { CustomButton } from "../../common";
+import { CustomButton } from "../common";
 
-import LogoImage from "../../assets/images/오즈_라이트.png";
-import GithubIcon from "../../assets/icons/ic_github.svg";
+import LogoImage from "../assets/images/오즈_라이트.png";
+import GithubIcon from "../assets/icons/ic_github.svg";
 
 interface LandingProps {
   handleStart: () => void;

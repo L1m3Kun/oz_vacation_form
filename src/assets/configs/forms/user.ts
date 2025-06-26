@@ -1,5 +1,5 @@
 import { LabelComponentWithInput } from "../../../common";
-import { ErrorMessageObject } from "../../../components/CreateForm/useValidate";
+import { ErrorMessageObject } from "../../../hooks/form/useValidate";
 import { dateFormatting } from "../../../utils";
 
 export interface UserFormConfigType

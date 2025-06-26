@@ -1,4 +1,4 @@
-import CreatingFormController from "./components/CreateForm/CreatingFormController";
+import CreatingFormController from "./pages/CreatingFormController";
 
 function App() {
   console.log(` 

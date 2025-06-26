@@ -12,7 +12,7 @@ interface VacationFormProp
   downloadName?: string;
 }
 
-const VacationForm = ({
+export const VacationForm = ({
   name = "김오즈",
   birth = "00.00.00",
   track = "초격차 캠프 프론트엔드 코스",
@@ -70,5 +70,3 @@ const VacationForm = ({
     </Document>
   );
 };
-
-export default VacationForm;
