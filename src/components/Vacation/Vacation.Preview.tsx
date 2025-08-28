@@ -55,6 +55,8 @@ const VacationPreview = () => {
         return "BE";
       case "1인 창업가 개발부트캠프":
         return "IH";
+      case "AI를 활용한 차세대 스마트 게임 개발자 양성과정":
+        return "GM";
       default:
         return "";
     }

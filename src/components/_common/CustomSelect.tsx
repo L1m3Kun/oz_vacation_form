@@ -14,6 +14,7 @@ const TRACKS = [
   },
   { id: "BE", value: "초격차 캠프 백엔드 코스" },
   { id: "IH", value: "1인 창업가 개발부트캠프" },
+  { id: "GM", value: "AI를 활용한 차세대 스마트 게임 개발자 양성과정" },
 ];
 
 export interface SelectProps extends ComponentPropsWithoutRef<"select"> {

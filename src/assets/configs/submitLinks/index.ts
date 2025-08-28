@@ -9,4 +9,6 @@ export const SUBMIT_LINKS: SubmitLinkType = {
     process.env.REACT_APP_TEACHING_TEAM_DEFAULT_SUBMIT_LINK ?? "",
   "1인 창업가 개발부트캠프":
     process.env.REACT_APP_TEACHING_5TEAM_SUBMIT_LINK ?? "",
+  "AI를 활용한 차세대 스마트 게임 개발자 양성과정":
+    process.env.REACT_APP_GAME_DEVELOPER_SUBMIT_LINK ?? "",
 };
