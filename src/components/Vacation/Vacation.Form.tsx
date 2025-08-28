@@ -35,7 +35,7 @@ export const VacationForm = ({
     <Document style={styles.previewContainer} title={downloadName}>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text>■ 오즈코딩스쿨 - 휴가신청서</Text>
+          <Text>■ 넥스트러너스 - 휴가신청서</Text>
         </View>
         <View style={styles.title}>
           <Text style={styles.titleContent}>휴가신청서</Text>
