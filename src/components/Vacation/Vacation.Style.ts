@@ -2,7 +2,7 @@ import { Font, StyleSheet } from "@react-pdf/renderer";
 
 Font.register({
   family: "pretendard",
-  src: "https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff",
+  src: "/fonts/Pretendard-Regular.ttf",
 });
 
 export const styles = StyleSheet.create({
