@@ -57,6 +57,8 @@ const VacationPreview = () => {
         return "IH";
       case "AI를 활용한 차세대 스마트 게임 개발자 양성과정":
         return "GM";
+      case "헬스케어 데이터 기반 인공지능 디지털 의료 웹 서비스 개발자 양성과정":
+        return "AH";
       default:
         return "";
     }

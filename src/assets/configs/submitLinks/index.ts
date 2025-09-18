@@ -11,4 +11,6 @@ export const SUBMIT_LINKS: SubmitLinkType = {
     process.env.REACT_APP_TEACHING_5TEAM_SUBMIT_LINK ?? "",
   "AI를 활용한 차세대 스마트 게임 개발자 양성과정":
     process.env.REACT_APP_GAME_DEVELOPER_SUBMIT_LINK ?? "",
+  "헬스케어 데이터 기반 인공지능 디지털 의료 웹 서비스 개발자 양성과정":
+    process.env.REACT_APP_AH_TRACK_SUBMIT_LINK ?? "",
 };

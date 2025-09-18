@@ -15,6 +15,11 @@ const TRACKS = [
   { id: "BE", value: "초격차 캠프 백엔드 코스" },
   { id: "IH", value: "1인 창업가 개발부트캠프" },
   { id: "GM", value: "AI를 활용한 차세대 스마트 게임 개발자 양성과정" },
+  {
+    id: "AH",
+    value:
+      "헬스케어 데이터 기반 인공지능 디지털 의료 웹 서비스 개발자 양성과정",
+  },
 ];
 
 export interface SelectProps extends ComponentPropsWithoutRef<"select"> {
@@ -27,7 +32,7 @@ export const Select = ({ htmlFor, ...rest }: SelectProps) => {
     <select
       defaultValue={track}
       onChange={handleChangeInput}
-      className="text-black text-center w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+      className="w-full px-4 py-2 text-center text-black transition-all duration-200 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       name={htmlFor}
       id={htmlFor}
       {...rest}

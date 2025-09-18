@@ -21,7 +21,8 @@ export interface InputValueType {
     | "초격차 캠프 프론트엔드 코스"
     | "초격차 캠프 백엔드 코스"
     | "1인 창업가 개발부트캠프"
-    | "AI를 활용한 차세대 스마트 게임 개발자 양성과정";
+    | "AI를 활용한 차세대 스마트 게임 개발자 양성과정"
+    | "헬스케어 데이터 기반 인공지능 디지털 의료 웹 서비스 개발자 양성과정";
   signUrl: string;
   handleChangeInput: <T extends HTMLInputElement | HTMLSelectElement>(
     e: ChangeEvent<T>
