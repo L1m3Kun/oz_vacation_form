@@ -12,7 +12,7 @@ const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
 const koreaTimeDiff = 32400000;
 
 const VacationPreview = () => {
-  const { translateFlag, translateTrack } = useTranslateText();
+  const { translateTrackInfo, translateTrack } = useTranslateText();
   const isMobile = useIsMobile();
   const {
     name,
@@ -69,12 +69,15 @@ const VacationPreview = () => {
   )}${df.getDate()}_${getTrack(track)}${changeTwoDay(
     Number(flag)
   )}_${name}.pdf`;
-
+  const { track: translatedTrack, flag: translatedFlag } = translateTrackInfo(
+    track,
+    flag
+  );
   const value = {
     name,
     birth,
-    track: translateTrack(track),
-    flag: translateFlag(track, flag),
+    track: translatedTrack,
+    flag: translatedFlag,
     during,
     reason,
     signUrl,
