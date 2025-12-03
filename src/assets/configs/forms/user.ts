@@ -1,12 +1,11 @@
 import { WheelEvent } from "react";
 
-import { ErrorMessageObject } from "../../../hooks";
-import { dateFormatting } from "../../../utils";
+import { calculateMinBirth, dateFormatting } from "../../../utils";
 import { LabelComponentWithInput } from "../../../HOCs";
+import { InputValueType } from "../../../context";
 
-export interface UserFormConfigType
-  extends Omit<LabelComponentWithInput, "htmlFor"> {
-  htmlFor: keyof ErrorMessageObject;
+interface UserFormConfigType extends Omit<LabelComponentWithInput, "htmlFor"> {
+  htmlFor: keyof Pick<InputValueType, "name" | "birth" | "flag">;
 }
 
 export const USER_FORM_CONFIGS: UserFormConfigType[] = [
@@ -22,7 +21,7 @@ export const USER_FORM_CONFIGS: UserFormConfigType[] = [
     isRequire: true,
     labelText: "생년월일",
     type: "date",
-    max: dateFormatting(new Date(Date.now()).toString()),
+    max: dateFormatting(new Date(calculateMinBirth().minBirthText + 1)),
   },
   {
     htmlFor: "flag",

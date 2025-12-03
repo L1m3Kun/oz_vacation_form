@@ -10,7 +10,8 @@ export const useIsMobile = () => {
       const mobile =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
           userAgent
-        );
+        ) || window.innerWidth <= 1024;
+
       setIsMobile(
         mobile || ("ontouchstart" in window && window.innerWidth <= 1024)
       );

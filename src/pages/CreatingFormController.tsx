@@ -3,11 +3,7 @@ import { useRef, useState } from "react";
 import Landing from "./Landing";
 
 import { useVacation } from "../context/VacationContext";
-import {
-  UserValidations,
-  useValidate,
-  VacationValidations,
-} from "../hooks/form/useValidate";
+
 import { SignatureCanvasProps } from "../components/Canvas/SignatureCanvas";
 import { useModal } from "../context/ModalContext";
 import { LOCALSTORAGE_KEY, localStorageUtils } from "../utils";
@@ -16,21 +12,18 @@ import { SUBMIT_LINKS } from "../assets/configs/submitLinks";
 import { FormUser } from "../components/Forms/Form.User";
 import { FormVacation } from "../components/Forms/Form.Vacation";
 import { FormSign } from "../components/Forms/Form.Sign";
+import { useCanvasValidate } from "../hooks/form/useCanvasValidate";
 
 interface CurrentPageProps extends SignatureCanvasProps {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   handleCreateVactionForm: () => void;
-  userValid: UserValidations;
-  vacationValid: VacationValidations;
 }
 
 const CurrentPage = ({
   currentPage,
   setCurrentPage,
   reff,
-  userValid,
-  vacationValid,
   handleCreateVactionForm,
 }: CurrentPageProps) => {
   const { track } = useVacation();
@@ -43,18 +36,13 @@ const CurrentPage = ({
   switch (currentPage) {
     case 1:
       return (
-        <FormUser
-          prevAction={handlePrevAction}
-          nextAction={handleNextAction}
-          isValid={Object.values(userValid).every((e) => e)}
-        />
+        <FormUser prevAction={handlePrevAction} nextAction={handleNextAction} />
       );
     case 2:
       return (
         <FormVacation
           prevAction={handlePrevAction}
           nextAction={handleNextAction}
-          isValid={Object.values(vacationValid).every((e) => e)}
         />
       );
     case 3:
@@ -83,14 +71,15 @@ const CreatingFormController = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const { handleSignUrl, ...value } = useVacation();
   const { setItemToLocalStorage, removeFromLocalStorage } = localStorageUtils();
-  const { canvasValidate, userValid, vacationValid } = useValidate();
+  const { canvasValidate } = useCanvasValidate();
   const { openModal, closeModal } = useModal();
 
   const createVacationForm = () => {
     const canvasCurrent = canvasRef.current;
 
     if (canvasCurrent) {
-      if (canvasValidate(canvasCurrent)) {
+      const [isValid, errorText] = canvasValidate(canvasCurrent);
+      if (isValid) {
         const url = canvasCurrent.toDataURL();
         const { birth, duringFrom, duringTo, flag, name, track } = value;
         const localSavedValue = {
@@ -113,7 +102,7 @@ const CreatingFormController = () => {
           modalKey: "alertCanvas",
           type: "alert",
           title: "오류",
-          content: "휴가 신청을 위해 서명을 해주세요.",
+          content: errorText,
           onConfirm: () => closeModal("alertCanvas"),
         });
       }
@@ -129,8 +118,6 @@ const CreatingFormController = () => {
         setCurrentPage={setCurrentPage}
         reff={canvasRef}
         handleCreateVactionForm={createVacationForm}
-        userValid={userValid}
-        vacationValid={vacationValid}
       />
     </main>
   );

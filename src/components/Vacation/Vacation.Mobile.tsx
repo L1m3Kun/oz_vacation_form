@@ -35,7 +35,7 @@ export const VacationMobile = ({
   return (
     <div className="h-screen w-full text-center flex flex-col justify-center items-center gap-8">
       <p className="font-semibold">
-        모바일 환경에서는 미리보기가 제공되지 않습니다.
+        화면 크기가 충분하지 않아 해당 환경에서는 미리보기를 제공할 수 없습니다.
       </p>
       <CustomButton mode="default" onClick={makeUrlFromPDF}>
         다운로드

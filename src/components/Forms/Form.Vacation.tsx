@@ -8,32 +8,36 @@ import {
 import { useModal, useVacation } from "../../context";
 import { changeTwoDay, dateFormatting, getDateDiff } from "../../utils";
 import { INPUT_CONFIGS, VACATION_DATE_COFIGS } from "../../assets/configs";
-import { useValidate } from "../../hooks";
+import { useVacationValidate } from "../../hooks/form/useVacationValidate";
 
 export const FormVacation = ({
   prevAction,
   nextAction,
-  isValid,
-}: Pick<PageButtonsProps, "prevAction" | "nextAction" | "isValid">) => {
+}: Pick<PageButtonsProps, "prevAction" | "nextAction">) => {
   const { handleChangeInput, duringFrom, duringTo, writedAt, reason } =
     useVacation();
-  const { errorMessage, validate } = useValidate();
+  const { errorMessage, vacationValidate } = useVacationValidate();
+
   const { openModal, closeModal } = useModal();
 
   const handleNextAction = () => {
+    const [isValid, invalidMessage] = vacationValidate({
+      duringFrom,
+      duringTo,
+    });
     if (isValid) {
       if (nextAction) {
         nextAction();
       }
     } else {
       const userInValidKey = "userInValid";
-      validate();
+
       openModal({
         modalKey: userInValidKey,
         type: "alert",
         onConfirm: () => closeModal(userInValidKey),
         title: "⚠️ 오류 ⚠️",
-        content: "입력 값을 확인해주세요.",
+        content: invalidMessage,
       });
     }
   };
@@ -63,20 +67,22 @@ export const FormVacation = ({
           <CustomInput key={el.htmlFor} {...el} />
         ))}
       </div>
-      <p className="text-2xl font-semibold pb-2 text-green-600">{`${new Date(
-        duringFrom
-      ).getFullYear()}.${changeTwoDay(
-        new Date(duringFrom).getMonth() + 1
-      )}.${changeTwoDay(new Date(duringFrom).getDate())} ~ ${new Date(
-        duringTo
-      ).getFullYear()}.${changeTwoDay(
-        new Date(duringTo).getMonth() + 1
-      )}.${changeTwoDay(new Date(duringTo).getDate())}(${Math.floor(
-        getDateDiff({
-          duringFrom: new Date(duringFrom),
-          duringTo: new Date(duringTo),
-        })
-      )}일)`}</p>
+      <p className="text-2xl font-semibold pb-2 text-green-600">{`${
+        new Date(duringFrom).getFullYear() || "0000"
+      }.${changeTwoDay(
+        new Date(duringFrom).getMonth() || -1 + 1
+      )}.${changeTwoDay(new Date(duringFrom).getDate() || 0)} ~ ${
+        new Date(duringTo).getFullYear() || "0000"
+      }.${changeTwoDay(new Date(duringTo).getMonth() || -1 + 1) || "00"}.${
+        changeTwoDay(new Date(duringTo).getDate() || 0) || "00"
+      }(${
+        Math.floor(
+          getDateDiff({
+            duringFrom: new Date(duringFrom),
+            duringTo: new Date(duringTo),
+          })
+        ) || "0"
+      }일)`}</p>
       {INPUT_ELEMENTS.map((el) => (
         <CustomInput key={el.htmlFor} {...el} />
       ))}

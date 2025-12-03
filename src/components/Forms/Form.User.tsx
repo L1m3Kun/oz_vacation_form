@@ -1,8 +1,7 @@
 import { useModal, useVacation } from "../../context";
 
 import { dateFormatting } from "../../utils";
-import { USER_FORM_CONFIGS, UserFormConfigType } from "../../assets/configs";
-import { useValidate } from "../../hooks";
+import { USER_FORM_CONFIGS } from "../../assets/configs";
 import {
   CustomInput,
   CustomSelect,
@@ -11,44 +10,46 @@ import {
   PageButtonsProps,
   Title,
 } from "../_common";
+import { useUserValidate } from "../../hooks/form/useUserValidate";
 
 export const FormUser = ({
   prevAction,
   nextAction,
-  isValid,
-}: Pick<PageButtonsProps, "prevAction" | "nextAction" | "isValid">) => {
-  const { handleChangeInput, handleSignUrl, ...value } = useVacation();
-  const { errorMessage, validate } = useValidate();
+}: Pick<PageButtonsProps, "prevAction" | "nextAction">) => {
+  const { handleChangeInput, ...value } = useVacation();
+  const { userValidate, errorMessage: userErrorMessage } = useUserValidate();
   const { openModal, closeModal } = useModal();
   const handleNextAction = () => {
+    const [isValid, invalidMessage] = userValidate(value);
+
     if (isValid) {
       if (nextAction) {
         nextAction();
       }
     } else {
       const userInValidKey = "userInValid";
-      validate();
       openModal({
         modalKey: userInValidKey,
         type: "alert",
         onConfirm: () => closeModal(userInValidKey),
         title: "⚠️ 오류 ⚠️",
-        content: "입력 값을 확인해주세요.",
+        content: invalidMessage,
       });
     }
   };
 
-  const INPUT_ELEMENTS: UserFormConfigType[] = USER_FORM_CONFIGS.map(
+  const INPUT_ELEMENTS: typeof USER_FORM_CONFIGS = USER_FORM_CONFIGS.map(
     (config) => ({
       ...config,
       value:
         config.htmlFor === "birth"
           ? dateFormatting(value.birth)
-          : value[config.htmlFor].toString(),
+          : [value[config.htmlFor as keyof typeof value]].toString(),
       onChange(e: React.ChangeEvent<HTMLInputElement>) {
         handleChangeInput<HTMLInputElement>(e);
       },
-      errorMessage: errorMessage[config.htmlFor],
+      errorMessage:
+        userErrorMessage[config.htmlFor as keyof typeof userErrorMessage],
     })
   );
   return (
@@ -58,7 +59,7 @@ export const FormUser = ({
       <CustomSelect
         htmlFor="track"
         labelText="캠프명"
-        errorMessage={errorMessage.track}
+        errorMessage={userErrorMessage.track}
         isRequire={true}
       />
       {INPUT_ELEMENTS.map((el) => (
@@ -68,7 +69,6 @@ export const FormUser = ({
         mode="both"
         prevAction={prevAction}
         nextAction={handleNextAction}
-        isValid={true}
       />
     </section>
   );

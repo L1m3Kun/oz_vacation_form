@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, memo } from "react";
 
 interface CustomButtonProps extends ComponentPropsWithoutRef<"button"> {
   mode: "outline" | "default" | "custom" | "link";
@@ -13,42 +13,38 @@ const OUTLINE_CLASS_NAME =
 
 const LINK_CLASS_NAME = "";
 
-export const CustomButton = ({
-  mode,
-  children,
-  className,
-  href,
-  ...rest
-}: CustomButtonProps) => {
-  switch (mode) {
-    case "custom":
-      return (
-        <button className={className} {...rest}>
-          {children}
-        </button>
-      );
-    case "outline":
-      return (
-        <button className={OUTLINE_CLASS_NAME + " " + className} {...rest}>
-          {children}
-        </button>
-      );
-    case "link":
-      return (
-        <a
-          className={LINK_CLASS_NAME + " " + className}
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {children}
-        </a>
-      );
-    default:
-      return (
-        <button className={DEFAULT_CLASS_NAME + " " + className} {...rest}>
-          {children}
-        </button>
-      );
+export const CustomButton = memo<CustomButtonProps>(
+  ({ mode, children, className, href, ...rest }) => {
+    switch (mode) {
+      case "custom":
+        return (
+          <button className={className} {...rest}>
+            {children}
+          </button>
+        );
+      case "outline":
+        return (
+          <button className={OUTLINE_CLASS_NAME + " " + className} {...rest}>
+            {children}
+          </button>
+        );
+      case "link":
+        return (
+          <a
+            className={LINK_CLASS_NAME + " " + className}
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {children}
+          </a>
+        );
+      default:
+        return (
+          <button className={DEFAULT_CLASS_NAME + " " + className} {...rest}>
+            {children}
+          </button>
+        );
+    }
   }
-};
+);
