@@ -6,7 +6,11 @@ import {
   useEffect,
   useState,
 } from "react";
-import { LOCALSTORAGE_KEY, localStorageUtils } from "../utils";
+import {
+  calculateMinBirth,
+  LOCALSTORAGE_KEY,
+  localStorageUtils,
+} from "../utils";
 
 export interface InputValueType {
   name: string;
@@ -38,7 +42,7 @@ type INITIAL_VACATION_TYPE = Omit<
 const INITIAL_VACATION: INITIAL_VACATION_TYPE = {
   track: "------ 트랙 선택 ------",
   name: "",
-  birth: new Date(Date.now()).toString(),
+  birth: new Date(calculateMinBirth().minBirthText + 1).toString(),
   flag: "",
   duringFrom: "",
   duringTo: "",
